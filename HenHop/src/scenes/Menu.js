@@ -10,30 +10,30 @@ class Menu extends Phaser.Scene {
             return;
         }
         // Load Images
-        this.load.image('obstacle1', './HenHop/assets/pillar1.png');
-        this.load.image('obstacle2', './HenHop/assets/pillar2.png');
-        this.load.image('obstacle3', './HenHop/assets/pillar3.png');
-        this.load.image('backLayer1', './HenHop/assets/hill2.png');
-        this.load.image('backLayer2', './HenHop/assets/hill1.png');
-        this.load.image('backLayer3', './HenHop/assets/tree4.png');
-        this.load.image('backLayer4', './HenHop/assets/tree3.png');
-        this.load.image('backLayer5', './HenHop/assets/tree2.png');
-        this.load.image('backLayer6', './HenHop/assets/tree1.png');
-        this.load.image('backLayer7', './HenHop/assets/cloudsandmountains.png');
-        this.load.image('sun', './HenHop/assets/sun.png');
-        this.load.image('background', './HenHop/assets/menuTitle.png');
-        this.load.image('deathScreen', './HenHop/assets/Endscreen.png');
+        this.load.image('obstacle1', './assets/pillar1.png');
+        this.load.image('obstacle2', './assets/pillar2.png');
+        this.load.image('obstacle3', './assets/pillar3.png');
+        this.load.image('backLayer1', './assets/hill2.png');
+        this.load.image('backLayer2', './assets/hill1.png');
+        this.load.image('backLayer3', './assets/tree4.png');
+        this.load.image('backLayer4', './assets/tree3.png');
+        this.load.image('backLayer5', './assets/tree2.png');
+        this.load.image('backLayer6', './assets/tree1.png');
+        this.load.image('backLayer7', './assets/cloudsandmountains.png');
+        this.load.image('sun', './assets/sun.png');
+        this.load.image('background', './assets/menuTitle.png');
+        this.load.image('deathScreen', './assets/Endscreen.png');
         
         // Load spritesheet with player animations
-        this.load.atlas('spriteSheet', './HenHop/assets/spritesheet.png', 'assets/spritesheet.json');
+        this.load.atlas('spriteSheet', './assets/spritesheet.png', 'assets/spritesheet.json');
 
         // Load Audio Files
-        this.load.audio("music", ["./HenHop/assets/sounds/music.wav"]);
-        this.load.audio("jump", ["./HenHop/assets/sounds/jumpSound.wav"]);
-        this.load.audio("bock", ["./HenHop/assets/sounds/chickenSound.mp3"]);
+        this.load.audio("music", ["./assets/sounds/music.wav"]);
+        this.load.audio("jump", ["./assets/sounds/jumpSound.wav"]);
+        this.load.audio("bock", ["./assets/sounds/chickenSound.mp3"]);
         
         // Call function that loads game font
-        loadFont("chuck", "./HenHop/assets/fonts/Chuck_W01_Regular.ttf");
+        loadFont("chuck", "./assets/fonts/Chuck_W01_Regular.ttf");
 
         console.log(this.textures);
     }

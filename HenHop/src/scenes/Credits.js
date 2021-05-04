@@ -5,7 +5,7 @@ class Credits extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('creditsBackground', './HenHop/assets/creditsBG.png');
+        this.load.image('creditsBackground', './assets/creditsBG.png');
     }
 
     create(){
