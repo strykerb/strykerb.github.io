@@ -34,8 +34,6 @@ class Menu extends Phaser.Scene {
         
         // Call function that loads game font
         loadFont("chuck", "./assets/fonts/Chuck_W01_Regular.ttf");
-
-        console.log(this.textures);
     }
 
     create(){
