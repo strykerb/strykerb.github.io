@@ -21,7 +21,7 @@ class Menu extends Phaser.Scene {
         this.load.image('backLayer6', './assets/tree1.png');
         this.load.image('backLayer7', './assets/cloudsandmountains.png');
         this.load.image('sun', './assets/sun.png');
-        this.load.image('background', './assets/menuTitle.png');
+        this.load.image('background', './assets/Menutitle.png');
         this.load.image('deathScreen', './assets/Endscreen.png');
         
         // Load spritesheet with player animations
