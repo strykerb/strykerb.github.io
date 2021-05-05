@@ -24,15 +24,16 @@ class Play extends Phaser.Scene {
         this.back1 = this.add.tileSprite(0, game.config.height, this.textures.get('backLayer1').width, this.textures.get('backLayer1').height, 'backLayer1').setOrigin(0, 1);
         this.back1.scaleX = 1.3;
         this.back1.scaleY = 1.3;
-        
 
-        // Set sound variables
         if (!this.music){
-            this.music = this.sound.add("music", {loop: true});
-            this.jumpSound = this.sound.add("jump", {loop: false});
-            this.startSound = this.sound.add("bock", {loop: false});
+            this.music = this.sound.add("music", {loop: true, volume: 0.5});
+            this.deathMusic = this.sound.add("deathBackgroundSound", {loop: true, volume: 0.5});
+            this.jumpSound = this.sound.add("jump", {loop: false, volume: 0.7});
+            this.deathSound = this.sound.add("deathSound", {loop: false, volume: 0.7});
+            this.UISound = this.sound.add("UISound", {loop: false, volume: 0.7});
+            this.startSound = this.sound.add("startSound", {loop: false});
         }
-
+        
         // Play background music on loop
         this.music.play();
 
@@ -95,7 +96,7 @@ class Play extends Phaser.Scene {
         let ob_idx;
         for (ob_idx = 0; ob_idx < 20; ob_idx++){
             // {72 * ob_idx} is hard coded; should be {obstacle.width * 3 * ob_idx}
-            let obstacle = new Obstacle(this, game.config.width/2 + 72*(9-ob_idx), game.config.height, this.obstacleSprite, 0, this.currentSpeed, 0, 3);
+            let obstacle = new Obstacle(this, game.config.width/2 + 72*(9-ob_idx), 640, this.obstacleSprite, 0, this.currentSpeed, 0, 3);
             this.obstacles.push(obstacle);
             this.physics.add.collider(this.player, obstacle);
         }
@@ -170,7 +171,7 @@ class Play extends Phaser.Scene {
 
     // Adds obstacle to the game - collides with player, reachable via the obstacles[] array
     spawnObstacle(){
-        let obstacle = new Obstacle(this, game.config.width + 20, game.config.height, this.obstacleSprite, 0, this.currentSpeed, this.obstacles[this.obstacles.length-1].scaleY, this.columnWidth);
+        let obstacle = new Obstacle(this, game.config.width + 20, game.config.height, this.obstacleSprite, 0, this.currentSpeed, this.obstacles[this.obstacles.length-1].y, this.columnWidth);
         this.obstacles.push(obstacle);
         this.physics.add.collider(this.player, obstacle);
     }
@@ -205,6 +206,8 @@ class Play extends Phaser.Scene {
     gameOver(){
         this.gameEnded = true;
         this.music.pause();
+        this.deathSound.play();
+        this.deathMusic.play();
         this.endScreen = this.add.image(game.config.width/2, game.config.height/2, 'deathScreen').setOrigin(0.5, 0.5);
         this.endScreen.scaleX = 0.7;
         this.endScreen.scaleY = 0.7;
@@ -227,13 +230,20 @@ class Play extends Phaser.Scene {
         this.retry.setInteractive();
         this.retry.on('pointerover', () => { enterButtonHoverState(this.retry); });
         this.retry.on('pointerout', () => { enterButtonRestState(this.retry); });
-        this.retry.on('pointerdown', () => { this.restart(); });
+        this.retry.on('pointerdown', () => { 
+            this.deathMusic.pause();
+            this.restart(); 
+        });
         this.exit = this.add.text(265 , 420, "MENU", this.endScoreConfig).setOrigin(0.5, 0);
         this.exit.setFontSize(72);
         this.exit.setInteractive();
         this.exit.on('pointerover', () => { enterButtonHoverState(this.exit); });
         this.exit.on('pointerout', () => { enterButtonRestState(this.exit); });
-        this.exit.on('pointerdown', () => { this.scene.start("menuScene"); });
+        this.exit.on('pointerdown', () => { 
+            this.UISound.play();
+            this.deathMusic.pause();
+            this.scene.start("menuScene"); 
+        });
     }
 
     restart(){

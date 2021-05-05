@@ -1,14 +1,14 @@
-class Credits extends Phaser.Scene {
+class Tutorial extends Phaser.Scene {
 
     constructor() {
-        super("creditsScene");
+        super("tutorialScene");
     }
 
     create(){
-        this.background = this.add.image(game.config.width/2, game.config.height/2, 'creditsBackground');
+        this.background = this.add.image(game.config.width/2, game.config.height/2, 'tutorialScreen');
         this.background.scaleX = 0.7;
         this.background.scaleY = 0.7;
-        
+
         // Set sound variables
         if (!this.UISound){
             this.UISound = this.sound.add("UISound", {loop: false, volume: 0.5});

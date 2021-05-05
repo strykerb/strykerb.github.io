@@ -1,5 +1,5 @@
 class Obstacle extends Phaser.GameObjects.Sprite  {
-    constructor(scene, x, y, texture, frame, speed, prevScale, scaleWidth) {
+    constructor(scene, x, y, texture, frame, speed, prevHeight, scaleWidth) {
         super(scene, x, y, texture, frame);
 
         // add object to scene
@@ -8,6 +8,11 @@ class Obstacle extends Phaser.GameObjects.Sprite  {
         // enable physics
         scene.physics.add.existing(this);
 
+
+        // Default height: 640
+        // Height step increse: 26 pixels
+        // Height step decrease: 52 pixels
+
         this.body.velocity.x = -speed;
 
         this.body.immovable = true;
@@ -15,14 +20,15 @@ class Obstacle extends Phaser.GameObjects.Sprite  {
 
         // Set up transforms so that the base is touching the ground, and scaling
         // Y does not affect location of the base
-        this.y = game.config.height;
-        this.setOrigin(0, 1);
+        //this.y = game.config.height;
+        this.setOrigin(0, 0);
 
         this.scaleX = scaleWidth;
+        this.scaleY = 1.5;
 
         // Handle first obstacle spawn: always the same height
-        if (prevScale == 0){
-            this.scaleY = 1.2;
+        if (prevHeight == 0){
+            this.y = 640;
             return;
         }
 
@@ -30,22 +36,22 @@ class Obstacle extends Phaser.GameObjects.Sprite  {
         let RNG = Math.random();
         if (RNG <= 0.4){
             // Reduce obstacle height
-            if (prevScale <= 1.9){
-                this.scaleY = prevScale + 0.4;
+            if (prevHeight >= 588){
+                this.y = prevHeight - 40;
             }
             else{
-                this.scaleY = prevScale - 0.8;
+                this.y = prevHeight + 40;
             }
         } else if (RNG <= 0.60){
             // Keep obstacle height the same
-            this.scaleY = prevScale
+            this.y = prevHeight;
         } else {
             // Increase obstacle height
-            if (prevScale >= 3.1){
-                this.scaleY = prevScale - 0.8;
+            if (prevHeight <= 420){
+                this.y = prevHeight + 40;
             }
             else{
-                this.scaleY = prevScale + 0.4;
+                this.y = prevHeight - 40;
             }
         }
 
