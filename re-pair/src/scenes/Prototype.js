@@ -16,7 +16,7 @@ class Prototype extends Phaser.Scene {
         // player animations
         //this.load.atlas('player', '../../assets/player.png', 'assets/player.json');
 
-        this.load.atlas('player', './assets/anims/run_idle_SS.png', '../../assets/anims/run_idle_SS.json');
+        this.load.atlas('player', './assets/anims/run_idle_SS.png', './assets/anims/run_idle_SS.json');
 
         this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
 
