@@ -8,17 +8,17 @@ class Prototype extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap1', '../../assets/tiles/tilemap1.json');
+        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/tilemap1.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', '../../assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', './assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
         // simple coin image
-        this.load.image('coin', '../../assets/sprites/coinGold.png');
+        this.load.image('coin', './assets/sprites/coinGold.png');
         // player animations
         //this.load.atlas('player', '../../assets/player.png', 'assets/player.json');
 
-        this.load.atlas('player', '../../assets/anims/run_idle_SS.png', '../../assets/anims/run_idle_SS.json');
+        this.load.atlas('player', './assets/anims/run_idle_SS.png', '../../assets/anims/run_idle_SS.json');
 
-        this.load.audio("teleportSound", ["../../assets/sounds/timeReverseSound.wav"]);
+        this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
 
     }
      
