@@ -5,11 +5,15 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {y: 500},
+            gravity: {y: 980},
             debug: false
         }
     },
-    scene: [Prototype]
+    scene: [Prototype],
+    fps: {
+        target: 60,
+        forceSetTimeOut: true
+    },
 };
  
 var game = new Phaser.Game(config);
