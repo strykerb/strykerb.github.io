@@ -67,7 +67,7 @@ class Level1 extends Phaser.Scene {
 
         // Create ability cooldown bar
         this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
-        this.setValue(this.coolDownBar, 0);
+        // this.setValue(this.coolDownBar, 0);
         this.coolDownBar.setScrollFactor(0, 0);
 
         // Load Sound
@@ -85,8 +85,9 @@ class Level1 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.scoreLeft = this.add.text(140 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
-        this.scoreLeft.setScrollFactor(0, 0);
+        this.instructions = this.add.text(140 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions.setScrollFactor(0, 0);
+        this.instructions.alpha = 0;
 
         // Add Win Hitbox
         // this.winBox = this.physics.add.sprite(2063, 916, 'coin');
@@ -131,5 +132,10 @@ class Level1 extends Phaser.Scene {
     setValue(bar, percentage) {
         //scale the bar
         bar.scaleX = percentage;
+        if (percentage >= 0.99){
+            this.instructions.alpha = 1;
+        } else {
+            this.instructions.alpha = 0;
+        }
     }
 }

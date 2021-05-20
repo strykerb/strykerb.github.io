@@ -1,10 +1,11 @@
 // Player Prefab
 
 class Player extends Phaser.GameObjects.Sprite {
-    TIME_JUMP = 400;
+    //TIME_JUMP = 400;
+    TIME_JUMP = 200;
     MOVE_SPEED = 300;
     JUMP_HEIGHT = 590;
-    ATTATCH_OFFSET = 6;
+    ATTATCH_OFFSET = 10;
     curr_scene;
     past_pos;
     cloned = false;
@@ -42,6 +43,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.TELEPORT_TIME = 3000;
         this.teleporting = false;
         this.cloned = false;
+        this.clone = null;
         this.collidingPlate = null;
 
     }
@@ -146,9 +148,15 @@ class Player extends Phaser.GameObjects.Sprite {
 
             // Spawn clone instance
             //this.clone = new Clone(this.curr_scene, this.past_pos["posX"], this.past_pos["posY"], 'player', 0, this.jsonObj);
-            this.clone = new Clone(this.curr_scene, this.x, this.y, 'player', 0, this.jsonObj);
+            this.clone = new Clone(this.scene, this.x, this.y, 'player', 0, this.jsonObj);
             this.clone.body.setCollideWorldBounds(true); // don't go out of the map
             this.curr_scene.physics.add.collider(groundLayer, this.clone);
+
+            if (this.scene.doors){
+                this.scene.doors.forEach(door => {
+                    this.scene.physics.add.collider(door, this.clone);
+                });
+            }
 
             //this.scene.input.keyboard.enabled = true;
 
@@ -166,6 +174,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.count++;
             if (this.count >= this.TIME_JUMP){
                 this.clone.destroy();
+                this.clone = null;
                 this.attatched = false;
                 this.cloned = false;
                 this.count = 1;

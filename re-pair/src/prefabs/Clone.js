@@ -10,8 +10,9 @@ class Clone extends Phaser.GameObjects.Sprite {
         // add obejct to the existing scene
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.body.setImmovable(true);
+        // this.body.setImmovable(true);
         this.setOrigin(0.5, 0);
+        this.body.mass = 4;
 
         scene.physics.add.collider(
             this, 
