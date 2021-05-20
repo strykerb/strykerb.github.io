@@ -25,9 +25,6 @@ class Doorway extends Phaser.GameObjects.Sprite {
 
         this.ORIGINAL_POS_Y = y;
         this.isOpen = false;
-
-        console.log(this.MOVE_VECTOR_Y);
-        console.log(this.ORIGINAL_POS_Y);
     }
 
 

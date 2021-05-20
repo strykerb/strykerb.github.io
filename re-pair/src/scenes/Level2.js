@@ -1,9 +1,9 @@
 // Protype Scene for testing feasibility of the project
 
-class Prototype extends Phaser.Scene {
+class Level2 extends Phaser.Scene {
     
     constructor() {
-        super("prototypeScene");
+        super("level2");
     }
 
     preload() {

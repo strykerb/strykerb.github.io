@@ -14,7 +14,6 @@ class PressurePlate extends Phaser.GameObjects.Sprite {
         const enterPlatePlayer = () => {
             this.steppedOn = true;
             if (!scene.player.collidingPlate) {
-                console.log("player entered plate");
                 scene.player.collidingPlate = this;
                 //scene.doors[this.idx].open();
               
@@ -38,9 +37,7 @@ class PressurePlate extends Phaser.GameObjects.Sprite {
 
     enterPlateClone(){
         this.steppedOn = true;
-        console.log("clone entered plate");
         if (!this.scene.player.clone.collidingPlate) {
-            console.log("clone entered plate");
             this.scene.player.clone.collidingPlate = this;
             //this.scene.doors[this.idx].open();
           

@@ -8,8 +8,9 @@ var config = {
             gravity: {y: 980},
             debug: false
         }
+        //debug: true
     },
-    scene: [Prototype],
+    scene: [Menu, Level1, Level2],
     fps: {
         target: 60,
         forceSetTimeOut: true
@@ -25,3 +26,11 @@ var cursors;
 let keyLEFT, keyRIGHT, keyUP, keySPACE;
 var groundLayer, coinLayer;
 var text;
+
+function enterButtonHoverState(button) {
+    button.setStyle({ color: '#525e4a'});
+  }
+
+function enterButtonRestState(button) {
+    button.setStyle({ color: '#faf5c8' });
+}
