@@ -10,6 +10,9 @@ class Player extends Phaser.GameObjects.Sprite {
     past_pos;
     cloned = false;
     count = 1;
+    jumping = false;
+    landing = false;
+    falling = false;
     
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
@@ -20,19 +23,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.setOrigin(0.5, 0);
         
-        // Setup Walk Animation
-        this.anims.create({
-            key: 'run',
-            frames: this.anims.generateFrameNames('player', { prefix: 'run', start: 1, end: 12 }),
-            frameRate: 30,
-            repeat: -1
-        });
-        // idle with only one frame, so repeat is not neaded
-        this.anims.create({
-            key: 'idle',
-            frames: this.anims.generateFrameNames('player', { prefix: 'idle', start: 1, end: 4 }),
-            frameRate: 10,
-        });
+        this.createAnims();
 
         this.jsonObj = [];
         this.jsonObj.push({"count": 1});
@@ -45,7 +36,6 @@ class Player extends Phaser.GameObjects.Sprite {
         this.cloned = false;
         this.clone = null;
         this.collidingPlate = null;
-
     }
 
     update(){
@@ -73,28 +63,44 @@ class Player extends Phaser.GameObjects.Sprite {
                 }
             }
         }
+
+        if (this.falling){
+            if (this.body.onFloor() || this.attatched){
+                this.anims.play("land");
+                this.falling = false;
+                this.landing = true;
+            }
+        }
+
+        this.falling = !(this.jumping || this.body.onFloor() || this.attatched);
         
         if (keyLEFT.isDown)
         {
             this.body.setVelocityX(netVelocity - this.MOVE_SPEED); // move left
-            this.anims.play('run', true); // play walk animation
-            this.flipX= true; // flip the sprite to the left
+            if (!this.falling && !this.jumping){this.anims.play('run', true);} // play walk animation
+            this.flipX= true; // flip the sprite to the left\
+            this.landing = false;
         }
         else if (keyRIGHT.isDown)
         {
             this.body.setVelocityX(netVelocity + this.MOVE_SPEED); // move right
-            this.anims.play('run', true); // play walk animation
+            if (!this.falling && !this.jumping){this.anims.play('run', true);} // play walk animation
             this.flipX = false; // use the original sprite looking to the right
+            this.landing = false;
         } else {
             this.body.setVelocityX(netVelocity);
-            this.anims.play('idle', true);
+            if (!this.falling && !this.jumping && !this.landing){this.anims.play('idle', true);}
         }  
-        if (keyUP.isDown  && (this.body.onFloor() || this.attatched))
+        if (keyUP.isDown && (this.body.onFloor() || this.attatched))
         {
-            this.body.setVelocityY(-this.JUMP_HEIGHT); // jump up
+            this.jump();
         }
         if (keySPACE.isDown && this.jsonObj.length >= this.TIME_JUMP-1){
             this.makeClone();
+        }
+
+        if (this.falling){
+            this.anims.play("fall");
         }
 
         // Store Position and keyboard input, if a clone doen't currently exist
@@ -106,6 +112,60 @@ class Player extends Phaser.GameObjects.Sprite {
         this.processClone();
     }
 
+    createAnims(){
+        // Setup Walk Animation
+        this.anims.create({
+            key: 'run',
+            frames: this.anims.generateFrameNames('player', { prefix: 'run', start: 1, end: 12 }),
+            frameRate: 30,
+            //repeat: -1
+        });
+        // idle with only one frame, so repeat is not neaded
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNames('player', { prefix: 'idle', start: 1, end: 6 }),
+            frameRate: 10,
+        });
+        this.anims.create({
+            key: 'jump',
+            frames: this.anims.generateFrameNames('player', { prefix: 'jump', start: 1, end: 7 }),
+            frameRate: 30,
+        });
+        this.anims.create({
+            key: 'fall',
+            frames: this.anims.generateFrameNames('player', { prefix: 'fall', start: 1, end: 3 }),
+            frameRate: 5,
+        });
+        this.anims.create({
+            key: 'land',
+            frames: this.anims.generateFrameNames('player', { prefix: 'land', start: 1, end: 5 }),
+            frameRate: 30
+        });
+
+        this.on('animationcomplete', this.animComplete, this);
+
+    }
+
+    animComplete(animation, frame)
+    {
+        
+        if (animation.key == "jump"){
+            this.jumping = false;
+            this.falling = true;
+            this.anims.play("fall");
+        } else if (animation.key == "land"){
+            this.landing = false;
+            this.anims.play("idle");
+        }
+    }
+
+    jump(){
+        this.anims.play("jump");
+        this.jumping = true;
+        this.body.setVelocityY(-this.JUMP_HEIGHT); // jump up
+        // console.log(this.x, this.y);
+    }
+
     // Appends position and input at the current moment to jsonObj
     addTimeStamp(){
         let item = {};
@@ -114,6 +174,7 @@ class Player extends Phaser.GameObjects.Sprite {
         item ["moveLeft"] = keyLEFT.isDown;
         item ["moveRight"] = keyRIGHT.isDown;
         item ["moveJump"] = keyUP.isDown;
+        item["animation"] = this.anims.currentAnim.key;
         
         // If we are exceeding the maximum recorded actions, remove the first elem of jsonObj
         if (this.jsonObj.push(item) >= this.TIME_JUMP){
@@ -123,8 +184,27 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
-        console.log(this.x + ", " + this.y);
+        //console.log(this.x + ", " + this.y);
         this.teleporting = true;
+
+        this.scene.ellipse = new Phaser.Geom.Ellipse(this.x, this.y+this.height/2, this.width/2, this.height);
+
+        this.scene.movingEmitter = this.scene.particleManager.createEmitter({
+            x: this.x,
+            y: this.y+this.height/2,
+            moveToX:    {min: this.past_pos["posX"]-this.width/4, max: this.past_pos["posX"]+this.width/4},
+            moveToY:    {min: this.past_pos["posY"], max: this.past_pos["posY"]+ this.height},
+            speed: 50,
+            scale: { start: 0.1, end: 1 },
+            alpha: { start: 0.5, end: 1 },
+            // higher steps value = more time to go btwn min/max
+            lifespan: { min: 2000, max: 7000, steps: 1000 },
+            blendMode: 'ADD',
+            emitZone: {
+                type: 'edge',
+                source: this.scene.ellipse
+            },
+        });
         
         this.setVisible(false);
         
@@ -135,12 +215,14 @@ class Player extends Phaser.GameObjects.Sprite {
         this.scene.teleportSound.play();
 
         const cam = this.scene.cameras.main;
-        cam.pan(this.past_pos["posX"], this.past_pos["posY"], this.TELEPORT_TIME, 'Elastic');
+        cam.pan(this.past_pos["posX"], this.past_pos["posY"], this.TELEPORT_TIME, Phaser.Math.Easing.Quadratic.InOut);
 
         this.clock = this.scene.time.delayedCall(this.TELEPORT_TIME, () => {
             this.teleporting = false;
             this.cloned = true;
             this.setVisible(true);
+            this.scene.movingEmitter.pause();
+            this.scene.movingEmitter.killAll()
 
             // Move Player
             this.x = this.past_pos["posX"];

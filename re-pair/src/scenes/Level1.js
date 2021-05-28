@@ -14,11 +14,6 @@ class Level1 extends Phaser.Scene {
 
         this.load.image('coin', './assets/sprites/coinGold.png');
         
-        // player animations
-        this.load.atlas('player', './assets/anims/run_idle_SS.png', './assets/anims/run_idle_SS.json');
-
-        this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
-
     }
      
     create() {
@@ -38,6 +33,8 @@ class Level1 extends Phaser.Scene {
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
         this.physics.world.bounds.height = groundLayer.height;
+
+        this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
         this.player = new Player(this, 2263, 916, 'player');
@@ -83,11 +80,61 @@ class Level1 extends Phaser.Scene {
             bottom: 5,
             }
         }
+
+        this.hintConfig = {
+            fontFamily: 'Courier',
+            fontSize: '60px',
+            color: '#faf5c8',
+            align: 'right',
+            padding: {
+            top: 5,
+            bottom: 5,
+            }
+        }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(140 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions = this.add.text(400 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
+
+        winbox = new Objective(this, 100, 600, 'coin');
+        
+        this.finishLevel = () => {
+            this.scene.start("menuScene");
+        }
+        
+        this.reachedObjective = () => {
+            console.log("entered");
+            winbox.visible = false;
+            this.physics.world.removeCollider(this.overlapCollider);
+            win = true;
+            labDoor = this.physics.add.sprite(2263, 916);
+            labDoor.setOrigin(0.5, 0.5);
+            labDoor.body.allowGravity = false;
+            this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
+            this.instructions2 = this.add.text(400 , 500, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
+            this.instructions3.alpha = 0;
+            this.instructions4.alpha = 0;
+            this.clock = this.time.delayedCall(3000, () => {
+                this.instructions2.alpha = 0;
+            }, null, this);
+        }
+        
+        this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
+
+        this.tutorialTrigger = this.physics.add.sprite(658, 600, "coin");
+        this.tutorialTrigger.setOrigin(0.5, 0.5);
+        this.tutorialTrigger.body.allowGravity = false;
+        this.tutorialTrigger.scaleY = 13;
+        this.tutorialTrigger.alpha = 0;
+        this.tutorialCollider = this.physics.add.overlap(this.tutorialTrigger, this.player, () => {
+            console.log("tutorial");
+            this.instructions3 = this.add.text(430 , 600, "Spawn a Time Clone and jump", this.scoreConfig).setOrigin(0, 0);
+            this.instructions4 = this.add.text(430 , 640, "on them to reach high places", this.scoreConfig).setOrigin(0, 0);
+            this.physics.world.removeCollider(this.tutorialCollider);
+        });
+
+        win = false;
 
         // Add Win Hitbox
         // this.winBox = this.physics.add.sprite(2063, 916, 'coin');
@@ -107,7 +154,7 @@ class Level1 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.coolDownBar, this.player.jsonObj.length/this.player.TIME_JUMP)
+        this.setValue(this.coolDownBar, this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 
@@ -129,13 +176,13 @@ class Level1 extends Phaser.Scene {
         return bar;
     }
     
-    setValue(bar, percentage) {
+    setValue(bar, text, percentage) {
         //scale the bar
         bar.scaleX = percentage;
         if (percentage >= 0.99){
-            this.instructions.alpha = 1;
+            text.alpha = 1;
         } else {
-            this.instructions.alpha = 0;
+            text.alpha = 0;
         }
     }
 }

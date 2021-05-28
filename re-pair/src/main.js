@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     physics: {
         default: 'arcade',
         arcade: {
@@ -26,6 +26,9 @@ var cursors;
 let keyLEFT, keyRIGHT, keyUP, keySPACE;
 var groundLayer, coinLayer;
 var text;
+var winbox;
+var win;
+var labDoor;
 
 function enterButtonHoverState(button) {
     button.setStyle({ color: '#525e4a'});

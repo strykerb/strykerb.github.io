@@ -8,7 +8,7 @@ class Level2 extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/Level2Temp.json');
+        this.load.tilemapTiledJSON('tilemap2', './assets/tiles/Level2Temp.json');
         // tiles in spritesheet 
         this.load.spritesheet('tiles', './assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
         
@@ -27,7 +27,7 @@ class Level2 extends Phaser.Scene {
     create() {
         
         // load the map 
-        map = this.make.tilemap({key: 'tilemap1'});
+        map = this.make.tilemap({key: 'tilemap2'});
 
         this.coolDownBarWidth = 300;
         
@@ -41,6 +41,8 @@ class Level2 extends Phaser.Scene {
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
         this.physics.world.bounds.height = groundLayer.height;
+
+        this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
         this.player = new Player(this, 2398, 916, 'player');
@@ -76,7 +78,6 @@ class Level2 extends Phaser.Scene {
 
         // Create ability cooldown bar
         this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
-        this.setValue(this.coolDownBar, 0);
         this.coolDownBar.setScrollFactor(0, 0);
 
         // Load Sound
@@ -92,10 +93,45 @@ class Level2 extends Phaser.Scene {
             bottom: 5,
             }
         }
+
+        this.hintConfig = {
+            fontFamily: 'Courier',
+            fontSize: '60px',
+            color: '#faf5c8',
+            align: 'right',
+            padding: {
+            top: 5,
+            bottom: 5,
+            }
+        }
         
         // Add UI Element to the screen
-        this.scoreLeft = this.add.text(140 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
-        this.scoreLeft.setScrollFactor(0, 0);
+        this.instructions = this.add.text(400 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions.setScrollFactor(0, 0);
+        this.instructions.alpha = 0;
+
+        winbox = new Objective(this, 100, 450, 'coin');
+        
+        this.finishLevel = () => {
+            this.scene.start("menuScene");
+        }
+        
+        this.reachedObjective = () => {
+            console.log("entered");
+            winbox.visible = false;
+            this.physics.world.removeCollider(this.overlapCollider);
+            win = true;
+            labDoor = this.physics.add.sprite(2398, 916);
+            labDoor.setOrigin(0.5, 0.5);
+            labDoor.body.allowGravity = false;
+            this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
+            this.instructions2 = this.add.text(400 , 200, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
+            this.clock = this.time.delayedCall(3000, () => {
+                this.instructions2.alpha = 0;
+            }, null, this);
+        }
+        
+        this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
 
     }
      
@@ -107,7 +143,7 @@ class Level2 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.coolDownBar, this.player.jsonObj.length/this.player.TIME_JUMP)
+        this.setValue(this.coolDownBar, this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 
@@ -129,8 +165,13 @@ class Level2 extends Phaser.Scene {
         return bar;
     }
     
-    setValue(bar, percentage) {
+    setValue(bar, text, percentage) {
         //scale the bar
         bar.scaleX = percentage;
+        if (percentage >= 0.99){
+            text.alpha = 1;
+        } else {
+            text.alpha = 0;
+        }
     }
 }

@@ -5,7 +5,12 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
+        this.load.image('particle', './assets/sprites/5x5_white.png');
 
+        // player animations
+        this.load.atlas('player', './assets/anims/player.png', './assets/anims/player.json');
+
+        this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
     }
 
     create(){
