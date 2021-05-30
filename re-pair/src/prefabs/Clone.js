@@ -21,6 +21,12 @@ class Clone extends Phaser.GameObjects.Sprite {
                 if (_clone.body.touching.up && _player.body.touching.down){
                     scene.player.attatchToClone(this.body);
                 }
+                if (_clone.body.touching.right){
+                    console.log("clone collision right");
+                }
+                if (_clone.body.touching.left){
+                    console.log("clone collision left");
+                }
             }
         );
 
