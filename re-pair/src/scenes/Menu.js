@@ -61,7 +61,7 @@ class Menu extends Phaser.Scene {
         }
 
         if (!progress){
-            progress = 3;
+            progress = 0;
         }
 
         let i;
