@@ -3,6 +3,7 @@
 class Clone extends Phaser.GameObjects.Sprite {
     // Variable that stores previous player actions
     actionsList = [];
+    COLLIDER_OFFSET = 3;
     
     constructor(scene, x, y, texture, frame, actions){
         super(scene, x, y, texture, frame);
@@ -13,7 +14,8 @@ class Clone extends Phaser.GameObjects.Sprite {
         // this.body.setImmovable(true);
         this.setOrigin(0.5, 0);
         this.body.mass = 4;
-
+        this.body.setSize(32, 64, 16, 0);
+        
         scene.physics.add.collider(
             this, 
             scene.player,
@@ -21,11 +23,16 @@ class Clone extends Phaser.GameObjects.Sprite {
                 if (_clone.body.touching.up && _player.body.touching.down){
                     scene.player.attatchToClone(this.body);
                 }
-                if (_clone.body.touching.right){
-                    console.log("clone collision right");
+            },
+            function(_clone, _player){
+                // if (_player.y < _clone.y + this.height + this.COLLIDER_OFFSET && _player.y > _clone.y + this.height - this.COLLIDER_OFFSET){
+                if (_player.body.velocity["y"] < 0){
+                    return false;
                 }
-                if (_clone.body.touching.left){
-                    console.log("clone collision left");
+                if (_player.y + _player.height/64 < _clone.y){    
+                    return true;
+                } else {
+                    return false;
                 }
             }
         );
@@ -38,10 +45,13 @@ class Clone extends Phaser.GameObjects.Sprite {
 
         // Assign actions based on param from Player
         this.actionsList = actions;
+
     }
 
     update(){
         this.takeAction();
+        // this.playerCollider.x = this.x;
+        // this.playerCollider.y = this.y-this.COLLIDER_OFFSET;
     }
 
     // Updates movement the exact same as Player.js does, but reads from 

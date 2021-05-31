@@ -8,27 +8,38 @@ class Level1 extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/Level1.json');
+        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/Level1Redo.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', './assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
 
         this.load.image('coin', './assets/sprites/coinGold.png');
         
     }
      
     create() {
-        
+        // Create the Background
+        this.background = this.add.tileSprite(game.config.width/2, game.config.height/2, this.textures.get('backdrop').width, this.textures.get('backdrop').height, 'backdrop').setOrigin(0.5, 0.5);
+        this.background.setScrollFactor(0);
+        this.background.scaleX = 1.1;
+        this.background.setDepth(-4);
+
         // load the map 
         map = this.make.tilemap({key: 'tilemap1'});
 
         this.coolDownBarWidth = 300;
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('tiles');
+        var groundTiles = map.addTilesetImage('TileSetRe','tiles');
         // create the ground layer
         groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
+        groundLayer.setDepth(-2);
         // the player will collide with this layer
         groundLayer.setCollisionByExclusion([-1]);
+
+        // load bg tileset
+        bgLayer = map.createLayer("Background", groundTiles, 0, 0);
+        bgLayer.setDepth(-3);
+        map.createLayer("Acc", groundTiles, 0, 0);
      
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -37,7 +48,7 @@ class Level1 extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        this.player = new Player(this, 2263, 916, 'player');
+        this.player = new Player(this, 467, 1266, 'player');
         // this.player = new Player(this, 200, 200, 'player');
 
         //player.setBounce(0.2); // our player will bounce from items
@@ -63,9 +74,9 @@ class Level1 extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#ccccff'); 
 
         // Create ability cooldown bar
-        this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
+        //this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
         // this.setValue(this.coolDownBar, 0);
-        this.coolDownBar.setScrollFactor(0, 0);
+        //this.coolDownBar.setScrollFactor(0, 0);
 
         // Load Sound
         this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
@@ -93,13 +104,14 @@ class Level1 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 100, 600, 'coin');
+        winbox = new Objective(this, 2628, 985.9999999999999, 'coin');
         
         this.finishLevel = () => {
+            progress = 1;
             this.scene.start("menuScene");
         }
         
@@ -108,11 +120,11 @@ class Level1 extends Phaser.Scene {
             winbox.visible = false;
             this.physics.world.removeCollider(this.overlapCollider);
             win = true;
-            labDoor = this.physics.add.sprite(2263, 916);
+            labDoor = this.physics.add.sprite(467, 1266);
             labDoor.setOrigin(0.5, 0.5);
             labDoor.body.allowGravity = false;
             this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
-            this.instructions2 = this.add.text(400 , 500, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
+            this.instructions2 = this.add.text(1750 , 900, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
             this.instructions3.alpha = 0;
             this.instructions4.alpha = 0;
             this.clock = this.time.delayedCall(3000, () => {
@@ -122,15 +134,15 @@ class Level1 extends Phaser.Scene {
         
         this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
 
-        this.tutorialTrigger = this.physics.add.sprite(658, 600, "coin");
+        this.tutorialTrigger = this.physics.add.sprite(2062, 1000, "coin");
         this.tutorialTrigger.setOrigin(0.5, 0.5);
         this.tutorialTrigger.body.allowGravity = false;
         this.tutorialTrigger.scaleY = 13;
         this.tutorialTrigger.alpha = 0;
         this.tutorialCollider = this.physics.add.overlap(this.tutorialTrigger, this.player, () => {
             console.log("tutorial");
-            this.instructions3 = this.add.text(430 , 600, "Spawn a Time Clone and jump", this.scoreConfig).setOrigin(0, 0);
-            this.instructions4 = this.add.text(430 , 640, "on them to reach high places", this.scoreConfig).setOrigin(0, 0);
+            this.instructions3 = this.add.text(1800 , 1000, "Spawn a Time Clone and jump", this.scoreConfig).setOrigin(0, 0);
+            this.instructions4 = this.add.text(1800 , 1040, "on them to reach high places", this.scoreConfig).setOrigin(0, 0);
             this.physics.world.removeCollider(this.tutorialCollider);
         });
 
@@ -154,7 +166,7 @@ class Level1 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.coolDownBar, this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 
@@ -176,9 +188,9 @@ class Level1 extends Phaser.Scene {
         return bar;
     }
     
-    setValue(bar, text, percentage) {
+    setValue(text, percentage) {
         //scale the bar
-        bar.scaleX = percentage;
+        //bar.scaleX = percentage;
         if (percentage >= 0.99){
             text.alpha = 1;
         } else {

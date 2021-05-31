@@ -7,7 +7,7 @@ class PressurePlate extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.body.setImmovable(true);
-        this.setOrigin(0.5, 0);
+        this.setOrigin(0.5, 1);
         this.body.allowGravity = false;
         this.idx = idx;
         
@@ -20,7 +20,7 @@ class PressurePlate extends Phaser.GameObjects.Sprite {
             }
         };
 
-        scene.physics.add.collider(
+        scene.physics.add.overlap(
             this, 
             scene.player,
             enterPlatePlayer,
@@ -64,8 +64,10 @@ class PressurePlate extends Phaser.GameObjects.Sprite {
     update(delta){
         if (this.steppedOn){
             this.scene.doors[this.idx].open(delta);
+            this.setFrame(1);
         } else {
             this.scene.doors[this.idx].close(delta);
+            this.setFrame(0);
         }
         
         // if (this.scene.player.collidingPlate && !this.steppedOn) {
@@ -75,7 +77,7 @@ class PressurePlate extends Phaser.GameObjects.Sprite {
 
         if (!this.cloneCollisionSetup && this.scene.player.cloned){
             this.cloneCollisionSetup = true;
-            this.scene.physics.add.collider(
+            this.scene.physics.add.overlap(
                 this, 
                 this.scene.player.clone,
                 this.enterPlateClone,

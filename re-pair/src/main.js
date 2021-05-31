@@ -6,11 +6,14 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 980},
-            debug: false
-        }
-        //debug: true
+            debug: false,
+            TILE_BIAS: 70
+        },
+        
     },
-    scene: [Menu, Level1, Level2],
+    pixelArt: true,
+    roundPixels: true,
+    scene: [Menu, Level1, Level2, Level3, Level4, Level5],
     fps: {
         target: 60,
         forceSetTimeOut: true
@@ -24,16 +27,19 @@ var map;
 var player;
 var cursors;
 let keyLEFT, keyRIGHT, keyUP, keySPACE;
-var groundLayer, coinLayer;
+var groundLayer, coinLayer, bgLayer;
 var text;
 var winbox;
 var win;
 var labDoor;
+var progress;
 
-function enterButtonHoverState(button) {
-    button.setStyle({ color: '#525e4a'});
+function enterButtonHoverState(index) {
+    game.scene.scenes[0].levels[index].scaleX = 1.5;
+    game.scene.scenes[0].levels[index].scaleY = 1.5;
   }
 
-function enterButtonRestState(button) {
-    button.setStyle({ color: '#faf5c8' });
+function enterButtonRestState(index) {
+    game.scene.scenes[0].levels[index].scaleX = 1;
+    game.scene.scenes[0].levels[index].scaleY = 1;
 }
