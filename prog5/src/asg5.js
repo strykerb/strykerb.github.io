@@ -30,6 +30,8 @@ let xrButton = null;
 let gl = null;
 let animationFrameRequestID = 0;
 let totalVertexCount = 0;
+let u_Color = null;
+let testCylinder = null;
 
 // Renderer variables and constants
 
@@ -81,18 +83,16 @@ function LogGLError(where) {
 const vsSource = `
   attribute vec4 aVertexPosition;
   attribute vec3 aVertexNormal;
-  attribute vec2 aTextureCoord;
 
   uniform mat4 uNormalMatrix;
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
+  uniform vec3 u_Color;
 
-  varying highp vec2 vTextureCoord;
   varying highp vec3 vLighting;
 
   void main(void) {
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
-    vTextureCoord = aTextureCoord;
 
     // Apply lighting effect
 
@@ -110,15 +110,11 @@ const vsSource = `
 // Fragment shader program
 
 const fsSource = `
-  varying highp vec2 vTextureCoord;
   varying highp vec3 vLighting;
-
-  uniform sampler2D uSampler;
+  uniform vec3 u_Color;
 
   void main(void) {
-    highp vec4 texelColor = texture2D(uSampler, vTextureCoord);
-
-    gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
+    gl_FragColor = vec4(u_Color * vLighting, 1.0);
   }
 `;
 
@@ -235,13 +231,12 @@ function sessionStarted(session) {
     attribLocations: {
       vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
       vertexNormal: gl.getAttribLocation(shaderProgram, 'aVertexNormal'),
-      textureCoord: gl.getAttribLocation(shaderProgram, 'aTextureCoord'),
     },
     uniformLocations: {
       projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
-      uSampler: gl.getUniformLocation(shaderProgram, 'uSampler')
+      u_Color: gl.getUniformLocation(gl.program, "u_Color")
     },
   };
 
@@ -434,7 +429,7 @@ function drawFrame(time, frame) {
       // Draw the view; typically there's one view for each eye unless
       // we're in a monoscopic view, such as an inline session.
       
-      renderScene(gl, view, programInfo, buffers, texture, deltaTime);
+      renderScene(gl, view, programInfo, buffers, texture, deltaTime, testCylinder);
     }
   }
 }
@@ -491,7 +486,7 @@ const modelViewMatrix = mat4.create();
 //
 // Render the scene.
 //
-function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
+function renderScene(gl, view, programInfo, buffers, texture, deltaTime, cylinder) {
   const xRotationForTime = (xRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
   const yRotationForTime = (yRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
   const zRotationForTime = (zRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
@@ -627,17 +622,19 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
       false,
       normalMatrix);
 
-  // Specify the texture to map onto the faces. We're
+  gl.uniform3f(programInfo.uniformLocations.u_Color, cylinder.color[0], cylinder.color[1], cylinder.color[2]);
+  
+      // Specify the texture to map onto the faces. We're
   // only using one texture, in texture unit 0; we first
   // select TEXTURE0, then bind the texture to it. If
   // we were using more textures, we'd bind them to
   // other texture numbers in the same way.
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, texture);
+  //gl.activeTexture(gl.TEXTURE0);
+  //gl.bindTexture(gl.TEXTURE_2D, texture);
 
   // Pass the texture number, 0, to the shader program
   // so it knows which one to use.
-  gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
+  //gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
 
   // Render all of the triangles in the list that makes
   // up the object.
@@ -739,6 +736,8 @@ function loadShader(gl, type, source) {
 // have one object -- a simple three-dimensional cube.
 //
 function initBuffers(gl) {
+  
+  
   // Create a buffer for the cube's vertex positions.
 
   const positionBuffer = gl.createBuffer();
@@ -755,7 +754,7 @@ function initBuffers(gl) {
   // in order to define the positions of the cube's vertices
   // in object-local space.
 
-  let testCylinder = new Cylinder(8, [0.5372549, 0.3450980, 0.3450980]);
+  testCylinder = new Cylinder(8, [0.5372549, 0.3450980, 0.3450980]);
   totalVertexCount = testCylinder.smoothVertices.length;
   
   console.log(testCylinder);
@@ -863,48 +862,54 @@ function initBuffers(gl) {
                 gl.STATIC_DRAW);
   LogGLError("bufferData (vertexNormals)");
   
-  // Now set up the texture coordinates for the faces.
+  // Now set up the color for the faces.
 
-  const textureCoordBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
+  const colorBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
   LogGLError("bindBuffer (textureCoordBuffer)");
+  const color = testCylinder.color;
 
-  const textureCoordinates = [
-    // Front
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Back
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Top
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Bottom
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Right
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-    // Left
-    0.0,  0.0,
-    1.0,  0.0,
-    1.0,  1.0,
-    0.0,  1.0,
-  ];
 
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates),
-                gl.STATIC_DRAW);
-  LogGLError("bufferData (textureCoordinates)");
+  // const textureCoordBuffer = gl.createBuffer();
+  // gl.bindBuffer(gl.ARRAY_BUFFER, textureCoordBuffer);
+  // LogGLError("bindBuffer (textureCoordBuffer)");
+
+  // const textureCoordinates = [
+  //   // Front
+  //   0.0,  0.0,
+  //   1.0,  0.0,
+  //   1.0,  1.0,
+  //   0.0,  1.0,
+  //   // Back
+  //   0.0,  0.0,
+  //   1.0,  0.0,
+  //   1.0,  1.0,
+  //   0.0,  1.0,
+  //   // Top
+  //   0.0,  0.0,
+  //   1.0,  0.0,
+  //   1.0,  1.0,
+  //   0.0,  1.0,
+  //   // Bottom
+  //   0.0,  0.0,
+  //   1.0,  0.0,
+  //   1.0,  1.0,
+  //   0.0,  1.0,
+  //   // Right
+  //   0.0,  0.0,
+  //   1.0,  0.0,
+  //   1.0,  1.0,
+  //   0.0,  1.0,
+  //   // Left
+  //   0.0,  0.0,
+  //   1.0,  0.0,
+  //   1.0,  1.0,
+  //   0.0,  1.0,
+  // ];
+
+  // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates),
+  //               gl.STATIC_DRAW);
+  // LogGLError("bufferData (textureCoordinates)");
 
   // Build the element array buffer; this specifies the indices
   // into the vertex arrays for each face's vertices.
