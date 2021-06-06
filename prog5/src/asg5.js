@@ -552,23 +552,23 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime, cylinde
 
   // Tell WebGL how to pull out the texture coordinates from
   // the texture coordinate buffer into the textureCoord attribute.
-  {
-    const numComponents = 2;
-    const type = gl.FLOAT;
-    const normalize = false;
-    const stride = 0;
-    const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.textureCoord,
-        numComponents,
-        type,
-        normalize,
-        stride,
-        offset);
-    gl.enableVertexAttribArray(
-        programInfo.attribLocations.textureCoord);
-  }
+  // {
+  //   const numComponents = 2;
+  //   const type = gl.FLOAT;
+  //   const normalize = false;
+  //   const stride = 0;
+  //   const offset = 0;
+  //   gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
+  //   gl.vertexAttribPointer(
+  //       programInfo.attribLocations.textureCoord,
+  //       numComponents,
+  //       type,
+  //       normalize,
+  //       stride,
+  //       offset);
+  //   gl.enableVertexAttribArray(
+  //       programInfo.attribLocations.textureCoord);
+  // }
 
   // Tell WebGL how to pull out the normals from
   // the normal buffer into the vertexNormal attribute.
@@ -865,7 +865,7 @@ function initBuffers(gl) {
 
   const colorBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-  LogGLError("bindBuffer (textureCoordBuffer)");
+  LogGLError("bindBuffer (colorBuffer)");
   const color = testCylinder.color;
 
 
@@ -942,7 +942,7 @@ function initBuffers(gl) {
   return {
     position: positionBuffer,
     normal: normalBuffer,
-    textureCoord: textureCoordBuffer,
+    color: colorBuffer,
     indices: indexBuffer
   };
 }
