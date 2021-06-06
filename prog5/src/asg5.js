@@ -642,7 +642,7 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   // Render all of the triangles in the list that makes
   // up the object.
   {
-    const vertexCount = totalVertexCount*2;
+    const vertexCount = totalVertexCount;
     const type = gl.UNSIGNED_SHORT;
     const offset = 0;
     gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
