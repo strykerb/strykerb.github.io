@@ -235,7 +235,7 @@ function sessionStarted(session) {
       projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
       modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
       normalMatrix: gl.getUniformLocation(shaderProgram, 'uNormalMatrix'),
-      u_Color: gl.getUniformLocation(gl.program, "u_Color")
+      u_Color: gl.getUniformLocation(shaderProgram, 'u_Color')
     },
   };
 
