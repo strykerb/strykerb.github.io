@@ -90,19 +90,28 @@ const vsSource = `
 
   varying highp vec3 vLighting;
 
+  vec3 calcDiffuse(vec3 l, vec3 n, vec3 lColor){
+    float nDotL = max(dot(l, n), 0.0);
+    return lColor * u_Color * nDotL;
+}
+
   void main(void) {
+    highp vec3 lightDirection = normalize(vec3(0.85, 0.8, 0.75));
+    highp vec3 directionalLightColor = vec3(1, 1, 1);
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
+    vec3 n = normalize(uNormalMatrix * vec4(aVertexNormal, 0.0)).xyz;
+    vec3 l1 = normalize(lightDirection);
 
     // Apply lighting effect
-
+    highp vec3 diffuse = calcDiffuse (l1, n, directionalLightColor);
     highp vec3 ambientLight = u_Color * vec3(0.3, 0.3, 0.3);
-    highp vec3 directionalLightColor = vec3(1, 1, 1);
-    highp vec3 lightingVector = normalize(vec3(0.85, 0.8, 0.75));
+    //highp vec3 lightingVector = normalize(vec3(0.85, 0.8, 0.75));
 
-    highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
 
-    highp float directional = max(dot(transformedNormal.xyz, lightingVector), 0.0);
-    vLighting = normalize(ambientLight + (u_Color * directionalLightColor * directional));
+    // highp float directional = max(dot(transformedNormal.xyz, lightingVector), 0.0);
+    // vLighting = normalize(ambientLight + (u_Color * directionalLightColor * directional));
+    vLighting = ambientLight + diffuse;
   }
 `;
 
