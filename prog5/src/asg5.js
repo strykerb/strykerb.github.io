@@ -95,14 +95,14 @@ const vsSource = `
 
     // Apply lighting effect
 
-    highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
+    highp vec3 ambientLight = u_Color * vec3(0.3, 0.3, 0.3);
     highp vec3 directionalLightColor = vec3(1, 1, 1);
     highp vec3 lightingVector = normalize(vec3(0.85, 0.8, 0.75));
 
     highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
 
     highp float directional = max(dot(transformedNormal.xyz, lightingVector), 0.0);
-    vLighting = ambientLight + (directionalLightColor * directional);
+    vLighting = ambientLight + (u_Color * directionalLightColor * directional);
   }
 `;
 
@@ -110,10 +110,9 @@ const vsSource = `
 
 const fsSource = `
   varying highp vec3 vLighting;
-  uniform highp vec3 u_Color;
 
   void main(void) {
-    gl_FragColor = vec4(u_Color * vLighting, 1.0);
+    gl_FragColor = vec4(vLighting, 1.0);
   }
 `;
 
