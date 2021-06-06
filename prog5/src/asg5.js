@@ -102,7 +102,7 @@ const vsSource = `
     highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
 
     highp float directional = max(dot(transformedNormal.xyz, lightingVector), 0.0);
-    vLighting = ambientLight + (u_Color * directionalLightColor * directional);
+    vLighting = normalize(ambientLight + (u_Color * directionalLightColor * directional));
   }
 `;
 
