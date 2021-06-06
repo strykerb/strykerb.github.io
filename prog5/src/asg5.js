@@ -30,7 +30,6 @@ let xrButton = null;
 let gl = null;
 let animationFrameRequestID = 0;
 let totalVertexCount = 0;
-let u_Color = null;
 let testCylinder = null;
 
 // Renderer variables and constants
