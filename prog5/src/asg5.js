@@ -33,7 +33,7 @@ let totalVertexCount = 0;
 
 // Renderer variables and constants
 
-const viewerStartPosition = vec3.fromValues(0, 0, -10);
+const viewerStartPosition = vec3.fromValues(0, 0, -5);
 const viewerStartOrientation = vec3.fromValues(0, 0, 1.0);
 
 const upVector = vec3.fromValues(0, 1, 0);
@@ -763,7 +763,7 @@ function initBuffers(gl) {
 
   const positions = testCylinder.smoothVertices;
 
-  console.log(positions);
+  console.log(totalVertexCount);
   
 
   // const positions = [
