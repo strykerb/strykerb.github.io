@@ -642,7 +642,7 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   // Render all of the triangles in the list that makes
   // up the object.
   {
-    const vertexCount = totalVertexCount;
+    const vertexCount = totalVertexCount*2;
     const type = gl.UNSIGNED_SHORT;
     const offset = 0;
     gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
@@ -758,7 +758,13 @@ function initBuffers(gl) {
   let testCylinder = new Cylinder(8, [0.5372549, 0.3450980, 0.3450980]);
   totalVertexCount = testCylinder.smoothVertices.length;
   
+  console.log(testCylinder);
+  
+
   const positions = testCylinder.smoothVertices;
+
+  console.log(positions);
+  
 
   // const positions = [
   //   // Front face
@@ -813,6 +819,7 @@ function initBuffers(gl) {
   LogGLError("bindBuffer (vertex normals: normalBuffer)");
 
   const vertexNormals = testCylinder.smoothNormals;
+
   
   // const vertexNormals = [
   //   // Front
