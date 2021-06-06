@@ -86,7 +86,7 @@ const vsSource = `
   uniform mat4 uNormalMatrix;
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
-  highp uniform vec3 u_Color;
+  uniform highp vec3 u_Color;
 
   varying highp vec3 vLighting;
 
