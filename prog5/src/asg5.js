@@ -756,7 +756,7 @@ function initBuffers(gl) {
   // in object-local space.
 
   let testCylinder = new Cylinder(8, [0.5372549, 0.3450980, 0.3450980]);
-  totalVertexCount = testCylinder.smoothVertices.length / 3;
+  totalVertexCount = testCylinder.smoothVertices.length;
   
   const positions = testCylinder.smoothVertices;
 
