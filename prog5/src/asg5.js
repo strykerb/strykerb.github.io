@@ -86,7 +86,7 @@ const vsSource = `
   uniform mat4 uNormalMatrix;
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
-  uniform vec3 u_Color;
+  highp uniform vec3 u_Color;
 
   varying highp vec3 vLighting;
 
@@ -110,7 +110,7 @@ const vsSource = `
 
 const fsSource = `
   varying highp vec3 vLighting;
-  uniform vec3 u_Color;
+  uniform highp vec3 u_Color;
 
   void main(void) {
     gl_FragColor = vec4(u_Color * vLighting, 1.0);
