@@ -247,7 +247,7 @@ function sessionStarted(session) {
 
   buffers = initBuffers(gl);
 
-  texture = loadTexture(gl, 'https://cdn.glitch.com/a9381af1-18a9-495e-ad01-afddfd15d000%2Ffirefox-logo-solid.png?v=1575659351244');
+  texture = loadTexture(gl, 'https://freesvg.org/img/brown.png');
   
   // Create the XRWebGLLayer to use as the base layer for the
   // session.
