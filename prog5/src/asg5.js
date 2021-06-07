@@ -565,7 +565,7 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
 
-  console.log(xRotationForTime);
+  console.log(totalRotX);
 
   rotMatrix.setIdentity();
 
