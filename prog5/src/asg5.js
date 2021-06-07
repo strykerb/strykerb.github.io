@@ -601,10 +601,10 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     
     //mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix);
     
-    gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelMatrix);
+    gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelMatrix.elements);
 
     // Compute normal matrix N_mat = (M^-1).T
-    mat4.invert(normalMatrix, modelMatrix);
+    mat4.invert(normalMatrix, modelMatrix.elements);
     mat4.transpose(normalMatrix, normalMatrix);
     
     gl.uniformMatrix4fv(programInfo.uniformLocations.normalMatrix, false, normalMatrix);
@@ -673,7 +673,7 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   }
 
   console.log("model matrix:" + modelMatrix.elements);
-  console.log("normal matrix: " + normalMatrix.elements);
+  console.log("normal matrix: " + normalMatrix);
 
   // Display the matrices to the screen for review and because MathML
   // is a nifty underused technology.
