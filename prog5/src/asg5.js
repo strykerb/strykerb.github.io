@@ -249,7 +249,7 @@ function sessionStarted(session) {
   buffers = initBuffers(gl);
 
   let debug = createCylinder(8, [0.5, 0, 0.7]);
-  debug.setRotate(0, 0, 0);
+  debug.setRotate(0* RADIANS_PER_DEGREE, 90* RADIANS_PER_DEGREE, 0* RADIANS_PER_DEGREE);
   debug.setScale(0.1, 0.1, 0.1);
   debug.setTranslate(0, 0, -1);
 
