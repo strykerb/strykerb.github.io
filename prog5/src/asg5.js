@@ -244,7 +244,7 @@ function sessionStarted(session) {
     },
   };
 
-  buffers = initBuffers(gl);
+  buffers = initBuffers();
 
   texture = loadTexture(gl, 'https://freesvg.org/img/brown.png');
 
@@ -758,7 +758,7 @@ function loadShader(gl, type, source) {
 //
 // Initialize the buffers we'll need.
 //
-function initBuffers(gl) {
+function initBuffers() {
   vertexBuffer = initBuffer("aVertexPosition", 3);
   normalBuffer = initBuffer("aVertexNormal", 3);
 
