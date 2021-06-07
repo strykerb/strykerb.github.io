@@ -32,6 +32,7 @@ let animationFrameRequestID = 0;
 let totalVertexCount = 0;
 let testCylinder = null;
 let cylinders = [];
+let indexBuffer = null;
 
 // Renderer variables and constants
 
@@ -645,8 +646,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothNormals), gl.STATIC_DRAW);
     }
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices));
-    // gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
     
     // // Send vertices and indices from cylinder to the shaders
     // gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
