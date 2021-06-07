@@ -582,7 +582,7 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   for (let cylinder of cylinders){
     // Update model matrix combining translate, rotate and scale from cylinder
 
-    console.log("rendering " + cylinder);
+    console.log("vertices: " + cylinder.smoothVertices);
     modelMatrix.setIdentity();
 
     // Apply translation for this cylinder
@@ -598,12 +598,13 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     // Model view matrix is view.transform.inverse.matrix * cubeMatrix; this
     // moves the object in relation to the viewer in order to simulate the movement
     // of the viewer.
-    mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix);
     
-    gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
+    //mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix);
+    
+    gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelMatrix);
 
     // Compute normal matrix N_mat = (M^-1).T
-    mat4.invert(normalMatrix, modelViewMatrix);
+    mat4.invert(normalMatrix, modelMatrix);
     mat4.transpose(normalMatrix, normalMatrix);
     
     gl.uniformMatrix4fv(programInfo.uniformLocations.normalMatrix, false, normalMatrix);
@@ -670,6 +671,9 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     gl.drawElements(gl.TRIANGLES, cylinder.smoothIndices.length, gl.UNSIGNED_SHORT, 0);
 
   }
+
+  console.log("model matrix:" + modelMatrix.elements);
+  console.log("normal matrix: " + normalMatrix.elements);
 
   // Display the matrices to the screen for review and because MathML
   // is a nifty underused technology.
