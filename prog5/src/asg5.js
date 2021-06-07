@@ -595,9 +595,10 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
 
     // Compute normal matrix N_mat = (M^-1).T
-    normalMatrix2.setInverseOf(modelViewMatrix);
-    normalMatrix2.transpose();
-    gl.uniformMatrix4fv(programInfo.uniformLocations.normalMatrix, false, normalMatrix2);
+    mat4.invert(normalMatrix, modelViewMatrix);
+    mat4.transpose(normalMatrix, normalMatrix);
+    
+    gl.uniformMatrix4fv(programInfo.uniformLocations.normalMatrix, false, normalMatrix);
 
     // Set u_Color variable from fragment shader
     gl.uniform3f(programInfo.uniformLocations.u_Color, cylinder.color[0], cylinder.color[1], cylinder.color[2]);
