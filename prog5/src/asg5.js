@@ -600,7 +600,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     // moves the object in relation to the viewer in order to simulate the movement
     // of the viewer.
     
-    mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix.elements);
+    // mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix.elements);
+    mat4.multiply(modelViewMatrix, modelMatrix.elements, view.transform.inverse.matrix);
     
     gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
 
