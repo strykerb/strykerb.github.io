@@ -818,10 +818,10 @@ function loadShader(gl, type, source) {
 // Initialize the buffers we'll need.
 //
 function initBuffers(gl) {
-  vertexBuffer = initBuffer("aVertexPosition", 3, gl);
-  normalBuffer = initBuffer("aVertexNormal", 3);
+  let vertexBuffer = initBuffer("aVertexPosition", 3, gl);
+  let normalBuffer = initBuffer("aVertexNormal", 3);
 
-  indexBuffer = gl.createBuffer();
+  let indexBuffer = gl.createBuffer();
   if(!indexBuffer) {
       console.log("Can't create buffer.")
       return -1;
