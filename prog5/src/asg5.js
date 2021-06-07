@@ -36,7 +36,7 @@ let indexBuffer = null;
 
 // Renderer variables and constants
 
-const viewerStartPosition = vec3.fromValues(0, 0, -5);
+const viewerStartPosition = vec3.fromValues(0, 0, -10);
 const viewerStartOrientation = vec3.fromValues(0, 0, 1.0);
 
 const upVector = vec3.fromValues(0, 1, 0);
@@ -249,7 +249,7 @@ function sessionStarted(session) {
 
   let debug = createCylinder(8, [0.5, 0, 0.7]);
   debug.setRotate(0, 0, 0);
-  debug.setScale(0.2, 0.2, 0.2);
+  debug.setScale(0.1, 0.1, 0.1);
   debug.setTranslate(0, 0, 0);
 
   // //Create Shotgun Out of 7 Cylinders
