@@ -33,6 +33,7 @@ let totalVertexCount = 0;
 let testCylinder = null;
 let cylinders = [];
 let indexBuffer = null;
+let rotMatrix = new Matrix4();
 
 // Renderer variables and constants
 
@@ -558,7 +559,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
 
-  // let rotMatrix = mat4.create();
+  
+  rotMatrix.setIdentity();
 
   if (enableRotation) {
     mat4.rotate(cubeMatrix,  // destination matrix
@@ -574,18 +576,9 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
                 xRotationForTime, // amount to rotate in radians
                 [1, 0, 0]);       // axis to rotate around (X)
 
-    // mat4.rotate(rotMatrix,  // destination matrix
-    //   rotMatrix,  // matrix to rotate
-    //               zRotationForTime,     // amount to rotate in radians
-    //               [0, 0, 1]);       // axis to rotate around (Z)
-    // mat4.rotate(rotMatrix,  // destination matrix
-    //   rotMatrix,  // matrix to rotate
-    //               yRotationForTime, // amount to rotate in radians
-    //               [0, 1, 0]);       // axis to rotate around (Y)
-    // mat4.rotate(rotMatrix,  // destination matrix
-    //   rotMatrix,  // matrix to rotate
-    //               xRotationForTime, // amount to rotate in radians
-    //               [1, 0, 0]);       // axis to rotate around (X)
+    rotMatrix.rotate(xRotationForTime , 1, 0, 0);
+    rotMatrix.rotate(yRotationForTime , 0, 1, 0);
+    rotMatrix.rotate(zRotationForTime , 1, 0, 1);
   }
 
   gl.useProgram(programInfo.program);
@@ -608,6 +601,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     modelMatrix.rotate(cylinder.rotate[0], 1, 0, 0);
     modelMatrix.rotate(cylinder.rotate[1], 0, 1, 0);
     modelMatrix.rotate(cylinder.rotate[2], 0, 0, 1);
+
+    modelMatrix.multiply(rotMatrix);
 
     // Apply scaling for this cylinder
     modelMatrix.scale(cylinder.scale[0], cylinder.scale[1], cylinder.scale[2]);
