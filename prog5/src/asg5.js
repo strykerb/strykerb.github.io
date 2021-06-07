@@ -15,7 +15,7 @@ const allowMouseRotation = true;
 const allowKeyboardMotion = true;
 const enableForcePolyfill = false;
 const SESSION_TYPE = "immersive-vr";       // "immersive-vr" or "inline"
-//const SESSION_TYPE = "inline";
+// const SESSION_TYPE = "inline";
 const MOUSE_SPEED = 0.003;
 const MOVE_DISTANCE = 0.4;
 
@@ -484,7 +484,7 @@ function drawFrame(time, frame) {
       // Draw the view; typically there's one view for each eye unless
       // we're in a monoscopic view, such as an inline session.
       
-      renderScene(gl, view, programInfo, buffers, texture, deltaTime, cylinders);
+      renderScene(gl, view, programInfo, buffers, texture, deltaTime);
     }
   }
 }
@@ -644,6 +644,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
         cylinder.smoothNormals);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothNormals), gl.STATIC_DRAW);
     }
+    console.log(programInfo.uniformLocations.indices);
+    console.log(programInfo.uniformLocations);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, programInfo.uniformLocations.indices);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
