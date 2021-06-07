@@ -1044,18 +1044,20 @@ function drawSphere(sphere) {
     } 
 }
 
-function initBuffer(attibuteName, n, glInstance) {
-    let shaderBuffer = glInstance.createBuffer();
+function initBuffer(attibuteName, n, gl) {
+  console.log(attibuteName, n, gl);  
+  
+  let shaderBuffer = gl.createBuffer();
     if(!shaderBuffer) {
         console.log("Can't create buffer.")
         return -1;
     }
 
-    glInstance.bindBuffer(glInstance.ARRAY_BUFFER, shaderBuffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, shaderBuffer);
 
-    let shaderAttribute = glInstance.getAttribLocation(glInstance.program, attibuteName);
-    glInstance.vertexAttribPointer(shaderAttribute, n, glInstance.FLOAT, false, 0, 0);
-    glInstance.enableVertexAttribArray(shaderAttribute);
+    let shaderAttribute = gl.getAttribLocation(gl.program, attibuteName);
+    gl.vertexAttribPointer(shaderAttribute, n, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(shaderAttribute);
 
     return shaderBuffer;
 }
