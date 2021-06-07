@@ -327,6 +327,23 @@ function sessionStarted(session) {
   return xrSession;
 }
 
+function initBuffer(attibuteName, n) {
+  
+  let shaderBuffer = gl.createBuffer();
+    if(!shaderBuffer) {
+        console.log("Can't create buffer.")
+        return -1;
+    }
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, shaderBuffer);
+
+    let shaderAttribute = gl.getAttribLocation(shaderProgram, attibuteName);
+    gl.vertexAttribPointer(shaderAttribute, n, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(shaderAttribute);
+
+    return shaderBuffer;
+}
+
 function sessionEnded() {
   xrButton.innerText = "Enter WebXR";
   
@@ -587,15 +604,57 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     // Set u_Color variable from fragment shader
     gl.uniform3f(u_Color, cylinder.color[0], cylinder.color[1], cylinder.color[2]);
 
-    // Send vertices and indices from cylinder to the shaders
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothVertices), gl.STATIC_DRAW);
+    // Tell WebGL how to pull out the positions from the position
+    // buffer into the vertexPosition attribute
+    {
+      const numComponents = 3;
+      const type = gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+      gl.vertexAttribPointer(
+          cylinder.smoothVertices,
+          numComponents,
+          type,
+          normalize,
+          stride,
+          offset);
+      gl.enableVertexAttribArray(
+          cylinder.smoothVertices);
+    }
+  
+    // Tell WebGL how to pull out the normals from
+  // the normal buffer into the vertexNormal attribute.
+    {
+      const numComponents = 3;
+      const type = gl.FLOAT;
+      const normalize = false;
+      const stride = 0;
+      const offset = 0;
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffers.normal);
+      gl.vertexAttribPointer(
+        cylinder.smoothNormals,
+          numComponents,
+          type,
+          normalize,
+          stride,
+          offset);
+      gl.enableVertexAttribArray(
+        cylinder.smoothNormals);
+    }
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothNormals), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cylinder.smoothIndices);
+    
+    // // Send vertices and indices from cylinder to the shaders
+    // gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothVertices), gl.STATIC_DRAW);
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
+    // gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+    // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothNormals), gl.STATIC_DRAW);
+
+    // gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    // gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
 
     // Draw cylinder
     gl.drawElements(gl.TRIANGLES, cylinder.smoothIndices.length, gl.UNSIGNED_SHORT, 0);
@@ -759,7 +818,7 @@ function loadShader(gl, type, source) {
 // Initialize the buffers we'll need.
 //
 function initBuffers(gl) {
-  vertexBuffer = initBuffer("aVertexPosition", 3);
+  vertexBuffer = initBuffer("aVertexPosition", 3, gl);
   normalBuffer = initBuffer("aVertexNormal", 3);
 
   indexBuffer = gl.createBuffer();
@@ -1044,22 +1103,6 @@ function drawSphere(sphere) {
     } 
 }
 
-function initBuffer(attibuteName, n) {
-  
-  let shaderBuffer = gl.createBuffer();
-    if(!shaderBuffer) {
-        console.log("Can't create buffer.")
-        return -1;
-    }
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, shaderBuffer);
-
-    let shaderAttribute = gl.getAttribLocation(shaderProgram, attibuteName);
-    gl.vertexAttribPointer(shaderAttribute, n, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(shaderAttribute);
-
-    return shaderBuffer;
-}
 
 // cylinderAngle = 0.0;
 function draw() {
