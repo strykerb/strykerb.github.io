@@ -36,7 +36,7 @@ let indexBuffer = null;
 
 // Renderer variables and constants
 
-const viewerStartPosition = vec3.fromValues(0, 0, -10);
+const viewerStartPosition = vec3.fromValues(0, 0, -1000);
 const viewerStartOrientation = vec3.fromValues(0, 0, 1.0);
 
 const upVector = vec3.fromValues(0, 1, 0);
@@ -250,7 +250,7 @@ function sessionStarted(session) {
   let debug = createCylinder(8, [0.5, 0, 0.7]);
   debug.setRotate(0, 0, 0);
   debug.setScale(0.1, 0.1, 0.1);
-  debug.setTranslate(0, 0, 0);
+  debug.setTranslate(0, 0, -1);
 
   // //Create Shotgun Out of 7 Cylinders
   // let barrel = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
@@ -581,8 +581,6 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
 
   for (let cylinder of cylinders){
     // Update model matrix combining translate, rotate and scale from cylinder
-
-    console.log("vertices: " + cylinder.smoothVertices);
     modelMatrix.setIdentity();
 
     // Apply translation for this cylinder
@@ -671,9 +669,6 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     gl.drawElements(gl.TRIANGLES, cylinder.smoothIndices.length, gl.UNSIGNED_SHORT, 0);
 
   }
-
-  console.log("model matrix:" + modelMatrix.elements);
-  console.log("normal matrix: " + normalMatrix);
 
   // Display the matrices to the screen for review and because MathML
   // is a nifty underused technology.
