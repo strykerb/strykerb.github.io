@@ -244,7 +244,7 @@ function sessionStarted(session) {
     },
   };
 
-  buffers = initBuffers();
+  buffers = initBuffers(gl);
 
   texture = loadTexture(gl, 'https://freesvg.org/img/brown.png');
 
@@ -758,9 +758,9 @@ function loadShader(gl, type, source) {
 //
 // Initialize the buffers we'll need.
 //
-function initBuffers() {
-  vertexBuffer = initBuffer("aVertexPosition", 3);
-  normalBuffer = initBuffer("aVertexNormal", 3);
+function initBuffers(gl) {
+  vertexBuffer = initBuffer("aVertexPosition", 3, gl);
+  normalBuffer = initBuffer("aVertexNormal", 3, gl);
 
   indexBuffer = gl.createBuffer();
   if(!indexBuffer) {
@@ -1044,7 +1044,7 @@ function drawSphere(sphere) {
     } 
 }
 
-function initBuffer(attibuteName, n) {
+function initBuffer(attibuteName, n, gl) {
     let shaderBuffer = gl.createBuffer();
     if(!shaderBuffer) {
         console.log("Can't create buffer.")
