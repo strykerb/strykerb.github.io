@@ -759,8 +759,8 @@ function loadShader(gl, type, source) {
 // Initialize the buffers we'll need.
 //
 function initBuffers(gl) {
-  vertexBuffer = initBuffer("aVertexPosition", 3, gl);
-  normalBuffer = initBuffer("aVertexNormal", 3, gl);
+  vertexBuffer = initBuffer("aVertexPosition", 3);
+  normalBuffer = initBuffer("aVertexNormal", 3);
 
   indexBuffer = gl.createBuffer();
   if(!indexBuffer) {
@@ -1044,8 +1044,7 @@ function drawSphere(sphere) {
     } 
 }
 
-function initBuffer(attibuteName, n, gl) {
-  console.log(attibuteName, n, gl);  
+function initBuffer(attibuteName, n) {
   
   let shaderBuffer = gl.createBuffer();
     if(!shaderBuffer) {
@@ -1055,7 +1054,7 @@ function initBuffer(attibuteName, n, gl) {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, shaderBuffer);
 
-    let shaderAttribute = gl.getAttribLocation(gl.program, attibuteName);
+    let shaderAttribute = gl.getAttribLocation(shaderProgram, attibuteName);
     gl.vertexAttribPointer(shaderAttribute, n, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(shaderAttribute);
 
