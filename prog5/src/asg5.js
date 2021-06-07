@@ -621,6 +621,7 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
           offset);
       gl.enableVertexAttribArray(
           cylinder.smoothVertices);
+          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothVertices), gl.STATIC_DRAW);
     }
   
     // Tell WebGL how to pull out the normals from
@@ -641,9 +642,11 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
           offset);
       gl.enableVertexAttribArray(
         cylinder.smoothNormals);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothNormals), gl.STATIC_DRAW);
     }
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cylinder.smoothIndices);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, programInfo.uniformLocations.indices);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
     
     // // Send vertices and indices from cylinder to the shaders
     // gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
