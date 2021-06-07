@@ -250,7 +250,7 @@ function sessionStarted(session) {
   let debug = createCylinder(8, [0.5, 0, 0.7]);
   debug.setRotate(0, 180, 0);
   debug.setScale(0.1, 0.1, 0.1);
-  debug.setTranslate(0, 0, -1);
+  debug.setTranslate(0.5, 0, -1);
 
   let mul = 1;
   let move = -12;
