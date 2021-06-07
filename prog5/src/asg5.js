@@ -10,7 +10,7 @@
 const xRotationDegreesPerSecond = 25;      // Rotation per second around X axis
 const yRotationDegreesPerSecond = 15;      // Rotation per second around Y axis
 const zRotationDegreesPerSecond = 35;      // Rotation per second around Z axis
-const enableRotation = false;
+const enableRotation = true;
 const allowMouseRotation = true;
 const allowKeyboardMotion = true;
 const enableForcePolyfill = false;
