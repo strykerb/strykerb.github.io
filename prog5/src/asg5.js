@@ -644,11 +644,9 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
         cylinder.smoothNormals);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cylinder.smoothNormals), gl.STATIC_DRAW);
     }
-    console.log(programInfo.uniformLocations.indices);
-    console.log(programInfo.uniformLocations);
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, programInfo.uniformLocations.indices);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices));
+    // gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cylinder.smoothIndices), gl.STATIC_DRAW);
     
     // // Send vertices and indices from cylinder to the shaders
     // gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
