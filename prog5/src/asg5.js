@@ -581,6 +581,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     rotMatrix.rotate(zRotationForTime , 1, 0, 1);
   }
 
+  console.log(rotMatrix.elements)
+
   gl.useProgram(programInfo.program);
   
   // Send our computed matrices to the GPU by setting the
@@ -610,8 +612,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     // moves the object in relation to the viewer in order to simulate the movement
     // of the viewer.
     
-    // mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix.elements);
-    mat4.multiply(modelViewMatrix, modelMatrix.elements, view.transform.inverse.matrix);
+    mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix.elements);
+    // mat4.multiply(modelViewMatrix, modelMatrix.elements, view.transform.inverse.matrix);
     
     gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix);
 
@@ -681,7 +683,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
 
     // Draw cylinder
     gl.drawElements(gl.TRIANGLES, cylinder.smoothIndices.length, gl.UNSIGNED_SHORT, 0);
-
+    console.log(modelMatrix.elements)
+    console.log(modelViewMatrix)
   }
 
   // Display the matrices to the screen for review and because MathML
