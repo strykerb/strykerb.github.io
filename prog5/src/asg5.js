@@ -36,7 +36,7 @@ let indexBuffer = null;
 
 // Renderer variables and constants
 
-const viewerStartPosition = vec3.fromValues(0, 0, -10);
+const viewerStartPosition = vec3.fromValues(0, 0, -5);
 const viewerStartOrientation = vec3.fromValues(0, 0, 1.0);
 
 const upVector = vec3.fromValues(0, 1, 0);
