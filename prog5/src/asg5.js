@@ -247,41 +247,46 @@ function sessionStarted(session) {
 
   buffers = initBuffers(gl);
 
+  let debug = createCylinder(8, [1, 1, 1]);
+  debug.setRotate(0, 0, 0);
+  debug.setScale(1, 1, 1);
+  debug.setTranslate(0, 0, 0);
+
   // //Create Shotgun Out of 7 Cylinders
-  let barrel = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
-  barrel.setRotate(0, 67, 0);
-  barrel.setScale(0.075, 0.075, 1);
-  barrel.setTranslate(-0.93, 0, 0);
+  // let barrel = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
+  // barrel.setRotate(0, 67, 0);
+  // barrel.setScale(0.075, 0.075, 1);
+  // barrel.setTranslate(-0.93, 0, 0);
 
-  let chamber = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
-  chamber.setRotate(0, 67, 0);
-  chamber.setScale(0.08, 0.125, 0.49);
-  chamber.setTranslate(-0.01, -0.05, 0.44);
+  // let chamber = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
+  // chamber.setRotate(0, 67, 0);
+  // chamber.setScale(0.08, 0.125, 0.49);
+  // chamber.setTranslate(-0.01, -0.05, 0.44);
 
-  let rail = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
-  rail.setRotate(0, 59, 0);
-  rail.setScale(0.05, 0.04, 1);
-  rail.setTranslate(-0.76, -0.13, 0.04);
+  // let rail = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
+  // rail.setRotate(0, 59, 0);
+  // rail.setScale(0.05, 0.04, 1);
+  // rail.setTranslate(-0.76, -0.13, 0.04);
 
-  let trigger = createCylinder(4, [0.1686274, 0.1686274, 0.16862745]);
-  trigger.setRotate(95, 0, 0);
-  trigger.setScale(0.015, 0.01, 0.08);
-  trigger.setTranslate(0.45, -0.14, 0.68);
+  // let trigger = createCylinder(4, [0.1686274, 0.1686274, 0.16862745]);
+  // trigger.setRotate(95, 0, 0);
+  // trigger.setScale(0.015, 0.01, 0.08);
+  // trigger.setTranslate(0.45, -0.14, 0.68);
 
-  let handle = createCylinder(8, [0.5372549, 0.3450980, 0.3450980]);
-  handle.setRotate(268, 136, 78);
-  handle.setScale(0.085, 0.075, 0.395);
-  handle.setTranslate(0.4, 0.02, 0.69);
+  // let handle = createCylinder(8, [0.5372549, 0.3450980, 0.3450980]);
+  // handle.setRotate(268, 136, 78);
+  // handle.setScale(0.085, 0.075, 0.395);
+  // handle.setTranslate(0.4, 0.02, 0.69);
 
-  let stock = createCylinder(8, [0.5372549, 0.3450980, 0.3450980]);
-  stock.setRotate(0, 67, 0);
-  stock.setScale(0.085, 0.13, 0.33);
-  stock.setTranslate(0.63, -0.26, 0.69);
+  // let stock = createCylinder(8, [0.5372549, 0.3450980, 0.3450980]);
+  // stock.setRotate(0, 67, 0);
+  // stock.setScale(0.085, 0.13, 0.33);
+  // stock.setTranslate(0.63, -0.26, 0.69);
 
-  let pump = createCylinder(8, [0.5372549, 0.3450980, 0.3450980]);
-  pump.setRotate(0, 67, 0);
-  pump.setScale(0.1, 0.085, 0.395);
-  pump.setTranslate(-0.4, -0.13, 0.21);
+  // let pump = createCylinder(8, [0.5372549, 0.3450980, 0.3450980]);
+  // pump.setRotate(0, 67, 0);
+  // pump.setScale(0.1, 0.085, 0.395);
+  // pump.setTranslate(-0.4, -0.13, 0.21);
   
   // Create the XRWebGLLayer to use as the base layer for the
   // session.
@@ -576,6 +581,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
 
   for (let cylinder of cylinders){
     // Update model matrix combining translate, rotate and scale from cylinder
+
+    console.log("rendering " + cylinder);
     modelMatrix.setIdentity();
 
     // Apply translation for this cylinder
