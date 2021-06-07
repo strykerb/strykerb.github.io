@@ -592,15 +592,15 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     // of the viewer.
     mat4.multiply(modelViewMatrix, view.transform.inverse.matrix, modelMatrix);
     
-    gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix.elements);
+    gl.uniformMatrix4fv(programInfo.uniformLocations.modelViewMatrix, false, modelViewMatrix.elements);
 
     // Compute normal matrix N_mat = (M^-1).T
     normalMatrix2.setInverseOf(modelViewMatrix);
     normalMatrix2.transpose();
-    gl.uniformMatrix4fv(uNormalMatrix, false, normalMatrix2.elements);
+    gl.uniformMatrix4fv(programInfo.uniformLocations.normalMatrix, false, normalMatrix2.elements);
 
     // Set u_Color variable from fragment shader
-    gl.uniform3f(u_Color, cylinder.color[0], cylinder.color[1], cylinder.color[2]);
+    gl.uniform3f(programInfo.uniformLocations.u_Color, cylinder.color[0], cylinder.color[1], cylinder.color[2]);
 
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute
