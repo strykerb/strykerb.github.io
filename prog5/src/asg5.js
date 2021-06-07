@@ -555,9 +555,9 @@ const modelViewMatrix = mat4.create();
 // Render the scene.
 //
 function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
-  const xRotationForTime = (xRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
-  const yRotationForTime = (yRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
-  const zRotationForTime = (zRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
+  const xRotationForTime = (xRotationDegreesPerSecond) * deltaTime;
+  const yRotationForTime = (yRotationDegreesPerSecond) * deltaTime;
+  const zRotationForTime = (zRotationDegreesPerSecond) * deltaTime;
   totalRotX += xRotationForTime;
   totalRotY += yRotationForTime;
   totalRotZ += zRotationForTime;
