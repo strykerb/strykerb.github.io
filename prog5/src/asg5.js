@@ -257,7 +257,7 @@ function sessionStarted(session) {
   // debug.setTranslate(0, 0, -1);
 
   let mul = 1;
-  let move = -12;
+  let move = -6;
 
   // Create Shotgun Out of 7 Cylinders
   let barrel = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
