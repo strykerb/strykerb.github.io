@@ -246,8 +246,6 @@ function sessionStarted(session) {
 
   buffers = initBuffers(gl);
 
-  texture = loadTexture(gl, 'https://freesvg.org/img/brown.png');
-
   // //Create Shotgun Out of 7 Cylinders
   let barrel = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
   barrel.setRotate(0, 67, 0);
