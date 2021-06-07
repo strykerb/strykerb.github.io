@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ASG 3 Features - Buffington</title>
+    <title>ASG 5 Features - Buffington</title>
     <style>
         body{
             background-color: #D1D1D1;
@@ -12,30 +12,38 @@
     </style>
 </head>
 <body>
-    <h1>CSE 160 Programming Assignment 3: Transformation of Fancier Model</h1>
+    <h1>CSE 160 Programming Assignment 5: Explore High-Level Graphics Library</h1>
     <h2>Author: Stryker Buffington - sbuffing@ucsc.edu</h2>
-    <h4>Submitted on: May 9, 2021</h4>
+    <h4>Submitted on: June 6, 2021</h4>
     <br></br>
     <h3>Program Overview:</h3>
-    <p>This program implements wireframe, flat shading, and smooth shading, building upon program 2's 3D scene. It allows the user to Modify lighting settings, toggle light sources, and move a point light source around the scene.</p>
+    <p>This program allows the user to view dynamically generated cylinders in VR, using the WebXR library. The use of a smart phone is required to view the scene. The scene has been tested to work on an iPhone 8 in Safari.</p>
     <br></br>
+    <h3>Demo Video:</h3>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/NMWW5w3cVbw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <br></br>
     <h3>Program Links:</h3>
     <ul>
         <li><a href = "./src/driver.html">HTML Code</a></li>
         <li><a href = "./src/asg5.js">Main Javascript</a></li>
         <li><a href = "./src/Cylinder.js">Cylinder Class</a></li>
-        <li><a href = "./src/Sphere.js">Sphere Class</a></li>
     </ul>
-    <img src="./res/output.png" width = "368" height = "368">
+    <img src="./res/output.png" width = "445" height = "250">
     <h3>User Guide</h3>
     <ul>
-        <li>Switch Rendering Modes by selecting Wireframe, Flat Shading, or Smooth Shading.</li>
-        <li>Choose which types of lighting contibute to the shotgun's illumination by toggling the Diffuse Lighting, Ambient Lighting, and Specular Lighting check boxes</li>
-        <li>Toggle on and off the Point Light and Directional Light with the corresponding check boxes.</li>
-        <li>Move the point light source left and right by modifying the Point Light Position slider.</li>
+        <li>Select the Enter WebXR button (only selectable on WebXR-Compatible devices.)</li>
+        <li>Rotate the device so that it's oriented horizontally</li>
+        <li>Ideally, view the scene through Google Cardboard or a similar mobile phone HMD solution.</li>
     </ul>
     <br></br>
     <h3>Implementation Notes</h3>
-    <p>The program was based off of Lucas Nascimento Ferreira's base code. Smooth Shading was achieved using Gouraud Shading.</p>
+    <p>The program was based off of <a href = "https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Movement_and_motion">A WebXR Example</a> provided by the Mozilla Web Docs. The scene has ambient and diffuse lighting from a directional light source. Smooth Shading was achieved using Gouraud Shading.</p>
+    <br></br>
+    <h3>Op-Ed</h3>
+    <p>My program: The Fall of The Pump Shotgun, did not go as planned.</p>
+    <p>Looking back on the Project, I definitely overcommitted myself in terms of project scope. I wanted to use AR and plane detection to place a 3D model into the real world, and as such I chose to use the WebXR library. This, as it turns out, was a huge mistake. I did not find ample documentation to achieve my goals, and I ultimately did not achieve my minimum project specs.</p>
+    <p>I have worked with WebXR in the past, which contributed to my confidence going into this project, but those past projects also used other high level graphics libraries (Unity) that greatly streamlined and automated much of the work I was doing in JavaScript. While my scene is technically VR, I was unable to test the effect of head movement on the scene, since my development website does not have https, which is required in order for Safari to grant the website sensor data. In theory, moving your head in the scene should allow you to look away from the floating purple crystal.</p>
+    <p>My main struggle was being unable to get the cylinders to render properly. They ended up looking like spiky crystal structures, so I just went with it. This is likely an issue with the two potentially conflicting Matrix Math libraries and/or something to do with the XR projection matrix, as the cylinder class itself remained untouched from previous assignments. I was attempting to merge two code bases and get them to play nice with each other, and I realized too late that I was in way over my head.</p>
+    <p>If I were to attempt this project again, I would rewrite the Cylinder class to use the new Matrix Math library, removing the library conflict that caused me so much frustration. I would also do more research on how the WebXR library computes view matrices.</p>
 </body>
 </html>
