@@ -249,7 +249,7 @@ function sessionStarted(session) {
   buffers = initBuffers(gl);
 
   let debug = createCylinder(8, [0.5, 0, 0.7]);
-  debug.setRotate(0* RADIANS_PER_DEGREE, 90* RADIANS_PER_DEGREE, 0* RADIANS_PER_DEGREE);
+  debug.setRotate(0, 90, 0);
   debug.setScale(0.1, 0.1, 0.1);
   debug.setTranslate(0, 0, -1);
 
@@ -581,8 +581,6 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
     rotMatrix.rotate(zRotationForTime , 1, 0, 1);
   }
 
-  console.log(rotMatrix.elements)
-
   gl.useProgram(programInfo.program);
   
   // Send our computed matrices to the GPU by setting the
@@ -683,8 +681,6 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
 
     // Draw cylinder
     gl.drawElements(gl.TRIANGLES, cylinder.smoothIndices.length, gl.UNSIGNED_SHORT, 0);
-    console.log(modelMatrix.elements)
-    console.log(modelViewMatrix)
   }
 
   // Display the matrices to the screen for review and because MathML
