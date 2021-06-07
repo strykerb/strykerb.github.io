@@ -34,6 +34,9 @@ let testCylinder = null;
 let cylinders = [];
 let indexBuffer = null;
 let rotMatrix = new Matrix4();
+let totalRotX = 0;
+let totalRotY = 0;
+let totalRotZ = 0;
 
 // Renderer variables and constants
 
@@ -555,6 +558,9 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   const xRotationForTime = (xRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
   const yRotationForTime = (yRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
   const zRotationForTime = (zRotationDegreesPerSecond * RADIANS_PER_DEGREE) * deltaTime;
+  totalRotX += xRotationForTime;
+  totalRotY += yRotationForTime;
+  totalRotZ += zRotationForTime;
   
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
@@ -577,9 +583,9 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
                 xRotationForTime, // amount to rotate in radians
                 [1, 0, 0]);       // axis to rotate around (X)
 
-    rotMatrix.rotate(xRotationForTime , 1, 0, 0);
-    rotMatrix.rotate(yRotationForTime , 0, 1, 0);
-    rotMatrix.rotate(zRotationForTime , 1, 0, 1);
+    rotMatrix.rotate(totalRotX , 1, 0, 0);
+    rotMatrix.rotate(totalRotY , 0, 1, 0);
+    rotMatrix.rotate(totalRotZ , 1, 0, 1);
   }
 
   gl.useProgram(programInfo.program);
