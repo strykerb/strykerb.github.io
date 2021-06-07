@@ -248,7 +248,7 @@ function sessionStarted(session) {
   buffers = initBuffers(gl);
 
   let debug = createCylinder(8, [0.5, 0, 0.7]);
-  debug.setRotate(0, 0, 0);
+  debug.setRotate(0, 180, 0);
   debug.setScale(0.1, 0.1, 0.1);
   debug.setTranslate(0, 0, -1);
 
@@ -558,6 +558,8 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
 
+  // let rotMatrix = mat4.create();
+
   if (enableRotation) {
     mat4.rotate(cubeMatrix,  // destination matrix
                 cubeMatrix,  // matrix to rotate
@@ -571,6 +573,19 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
                 cubeMatrix,  // matrix to rotate
                 xRotationForTime, // amount to rotate in radians
                 [1, 0, 0]);       // axis to rotate around (X)
+
+    // mat4.rotate(rotMatrix,  // destination matrix
+    //   rotMatrix,  // matrix to rotate
+    //               zRotationForTime,     // amount to rotate in radians
+    //               [0, 0, 1]);       // axis to rotate around (Z)
+    // mat4.rotate(rotMatrix,  // destination matrix
+    //   rotMatrix,  // matrix to rotate
+    //               yRotationForTime, // amount to rotate in radians
+    //               [0, 1, 0]);       // axis to rotate around (Y)
+    // mat4.rotate(rotMatrix,  // destination matrix
+    //   rotMatrix,  // matrix to rotate
+    //               xRotationForTime, // amount to rotate in radians
+    //               [1, 0, 0]);       // axis to rotate around (X)
   }
 
   gl.useProgram(programInfo.program);
