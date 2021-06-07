@@ -247,13 +247,13 @@ function sessionStarted(session) {
 
   buffers = initBuffers(gl);
 
-  let debug = createCylinder(8, [0.5, 0, 0.7]);
-  debug.setRotate(0, 0, 0);
-  debug.setScale(0.1, 0.1, 0.1);
-  debug.setTranslate(0, 0, -1);
+  // let debug = createCylinder(8, [0.5, 0, 0.7]);
+  // debug.setRotate(0, 0, 0);
+  // debug.setScale(0.1, 0.1, 0.1);
+  // debug.setTranslate(0, 0, -1);
 
   let mul = 1;
-  let move = -10;
+  let move = -12;
 
   //Create Shotgun Out of 7 Cylinders
   let barrel = createCylinder(8, [0.1686274, 0.1686274, 0.16862745]);
