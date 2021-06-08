@@ -34,6 +34,7 @@ let testCylinder = null;
 let cylinders = [];
 let indexBuffer = null;
 let rotMatrix = new Matrix4();
+let modelMatrix = new Matrix4();
 let totalRotX = 0;
 let totalRotY = 0;
 let totalRotZ = 0;
@@ -565,7 +566,6 @@ function renderScene(gl, view, programInfo, buffers, texture, deltaTime) {
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
   gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
 
-  console.log(totalRotX);
 
   rotMatrix.setIdentity();
 
