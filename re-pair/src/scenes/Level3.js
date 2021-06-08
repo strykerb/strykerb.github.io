@@ -21,13 +21,17 @@ class Level3 extends Phaser.Scene {
         this.playerSpawnX = 382;
         this.playerSpawnY = 2106;
 
+        if (!soundEffects["music"].isPlaying){
+            soundEffects["music"].play();
+        }
+
         // load the map 
         map = this.make.tilemap({key: 'tilemap3'});
 
         this.coolDownBarWidth = 300;
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('TileSetRe','tiles');
+        var groundTiles = map.addTilesetImage('TilesR','tiles', 70, 70, 0, 0);
         // create the ground layer
         groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
         groundLayer.setDepth(-2);
@@ -47,21 +51,24 @@ class Level3 extends Phaser.Scene {
 
         // Instantiate the Player Class  
         this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
-        // this.player = new Player(this, 1962, 496, 'player');
+        // this.player = new Player(this, 1970, 560, 'player');
 
         // Instantiate a doorway
-        this.doors = [new Doorway(this, 2133, 570, 'door')];
+        this.doors = [new Doorway(this, 2133, 560, 'door')];
 
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 2083, 570, 'button', 0, 0)];
 
-        this.enemies = [new Enemy(this, 2393,  625, 'robot')];
+        this.enemyEmitters = [];
+        
+        this.enemies = [new Enemy(this, 2344, 630, 'robot', 0, 0), new Enemy(this, 2196, 1890, 'robot', 0, 1)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
         	
         // Add collision with the ground
         this.physics.add.collider(groundLayer, this.player);
+        this.physics.add.collider(groundLayer, this.enemies);
 
         // Adding keyboard input
         // Create key bindings
@@ -109,19 +116,18 @@ class Level3 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
-        this.instructions.setScrollFactor(0, 0);
-        this.instructions.alpha = 0;
+        // this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        // this.instructions.setScrollFactor(0, 0);
+        // this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 2300, 525, 'coin');
+        winbox = new Objective(this, 2300, 525, 'wrench');
         
         this.finishLevel = () => {
             progress = 3;
-            this.scene.start("menuScene");
+            this.scene.start("lab");
         }
         
         this.reachedObjective = () => {
-            console.log("entered");
             winbox.visible = false;
             this.physics.world.removeCollider(this.overlapCollider);
             win = true;
@@ -137,12 +143,10 @@ class Level3 extends Phaser.Scene {
         
         this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
 
-        console.log(this.doors);
 
     }
      
     update(time, delta) {
-        //console.log(time);
         this.plates.forEach(plate => {
             plate.update(delta);
         });
@@ -152,7 +156,7 @@ class Level3 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        // this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 

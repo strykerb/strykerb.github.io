@@ -5,30 +5,15 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('particle', './assets/sprites/5x5_white.png');
-        this.load.image('backdrop', './assets/tiles/repairsky.png');
-        this.load.image('coin', './assets/sprites/coinGold.png');
-        this.load.image('robot', './assets/sprites/bipedal-unit1.png')
-
-        // player animations
-        this.load.atlas('player', './assets/anims/player.png', './assets/anims/player.json');
-        this.load.atlas('button', './assets/sprites/button.png', './assets/sprites/button.json');
-        this.load.atlas('timeAnim', './assets/anims/timeAnim.png', './assets/anims/timeAnim.json');
-
-        this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
-
-        // tiles in spritesheet 
-        this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
         
-        this.load.image('door', './assets/sprites/pillar3.png');
-        // this.load.image('plate', './assets/sprites/pillar2.png');
-
     }
 
     create(){
+        soundEffects["music"].stop();
+        
         // Config for Play Button
         let LOCKEDConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'cyberfunk',
             fontSize: '45px',
             color: '#2e2e2e',
             align: 'right',
@@ -39,7 +24,7 @@ class Menu extends Phaser.Scene {
         }
 
         let PREVIOUSConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'cyberfunk',
             fontSize: '30px',
             color: '#faf5c8',
             align: 'right',
@@ -50,7 +35,7 @@ class Menu extends Phaser.Scene {
         }
 
         let NEXTConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'cyberfunk',
             fontSize: '45px',
             color: '#820101',
             align: 'right',
@@ -61,7 +46,7 @@ class Menu extends Phaser.Scene {
         }
 
         if (!progress){
-            progress = 0;
+            progress = 2;
         }
 
         let i;
@@ -79,17 +64,17 @@ class Menu extends Phaser.Scene {
             let index = i;
 
             this.levels[i].on('pointerover', () => {
-                enterButtonHoverState(index);
+                enterButtonHoverState(this.levels[index]);
             });
             this.levels[i].on('pointerout', () => {
-                enterButtonRestState(index);
+                enterButtonRestState(this.levels[index]);
             });
             this.levels[i].on('pointerdown', () => { 
+                soundEffects["music"].play();
                 this.scene.start(levelName); 
             });
         }
-
-        this.controls = this.add.text(game.config.width/2, 3*game.config.height/4, "Controls: Arrow Keys for Player Movement", PREVIOUSConfig).setOrigin(0.5, 0.5);
+        
     }
 
 }

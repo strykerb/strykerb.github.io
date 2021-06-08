@@ -4,7 +4,7 @@ class Doorway extends Phaser.GameObjects.Sprite {
     // OPEN_SPEED = 0.3;
     OPEN_SPEED = 300;
     ORIGINAL_POS_Y = 0;
-    SCALE = 2.5
+    SCALE = 1
 
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
@@ -15,12 +15,11 @@ class Doorway extends Phaser.GameObjects.Sprite {
         this.body.setImmovable(true);
         this.setOrigin(0.5, 1);
         this.body.allowGravity = false;
-        this.scaleY = this.SCALE;
         
         scene.physics.add.collider(this, scene.player);
         scene.physics.add.collider(this, scene.player.clone);
 
-        this.MOVE_VECTOR_Y = this.height * this.SCALE;
+        this.MOVE_VECTOR_Y = this.height;
 
         this.jsonObj = [];
         this.past_pos = this.y;
@@ -35,7 +34,7 @@ class Doorway extends Phaser.GameObjects.Sprite {
             this.body.setVelocityY(0);
             return;
         }
-        else if (this.y >= this.ORIGINAL_POS_Y + this.MOVE_VECTOR_Y){
+        else if (this.y >= this.ORIGINAL_POS_Y + this.MOVE_VECTOR_Y + 5){
             this.body.setVelocityY(0);
             return;
         } else {
@@ -49,7 +48,7 @@ class Doorway extends Phaser.GameObjects.Sprite {
             this.body.setVelocityY(0);
             return;
         }
-        else if (this.y <= this.ORIGINAL_POS_Y){
+        else if (this.y <= this.ORIGINAL_POS_Y + 5){
             this.body.setVelocityY(0);
             return;
         } else {
@@ -85,8 +84,6 @@ class Doorway extends Phaser.GameObjects.Sprite {
             yoyo: false
         });
         
-        //this.y = this.past_pos;
-        console.log("reverting to " + this.past_pos);
         this.jsonObj = [];
     }
     

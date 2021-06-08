@@ -16,7 +16,7 @@ class Clone extends Phaser.GameObjects.Sprite {
         this.body.mass = 4;
         this.body.setSize(32, 64, 16, 0);
         
-        scene.physics.add.collider(
+        this.playerCollider = scene.physics.add.collider(
             this, 
             scene.player,
             function(_clone, _player){
@@ -113,6 +113,22 @@ class Clone extends Phaser.GameObjects.Sprite {
             frames: this.anims.generateFrameNames('player', { prefix: 'land', start: 1, end: 5 }),
             frameRate: 30
         });
+        this.anims.create({
+            key: 'timeWarp',
+            frames: this.anims.generateFrameNames('timeWarp', { prefix: 'sprite', start: 1, end: 8 }),
+            frameRate: this.scene.player.TIMEWARP_FR,
+        });
 
+    }
+
+    kill(){
+        this.anims.play('timeWarp');
+        this.body.allowGravity = false;
+        this.body.setVelocityX(0);
+        this.body.setVelocityY(0);
+        this.scene.physics.world.removeCollider(this.playerCollider);
+        this.clock = this.scene.time.delayedCall(8000/this.scene.player.TIMEWARP_FR, () => {
+            this.destroy();
+        }, null, this);
     }
 }

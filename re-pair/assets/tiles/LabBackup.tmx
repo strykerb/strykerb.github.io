@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="8" height="4" tilewidth="70" tileheight="70" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" name="TilesR" tilewidth="70" tileheight="70" tilecount="35" columns="5">
+  <image source="TilesR.png" trans="000000" width="351" height="490"/>
+ </tileset>
+ <layer id="1" name="Ground" width="8" height="4">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,
+12,12,12,12,12,12,12,12
+</data>
+ </layer>
+ <layer id="2" name="Background" width="8" height="4">
+  <data encoding="csv">
+22,2147483673,19,2,2,19,25,17,
+22,2147483663,2,2,2,2,15,17,
+22,2147483663,2,2,2,2,15,17,
+0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

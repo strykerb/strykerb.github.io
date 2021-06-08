@@ -1,0 +1,57 @@
+{ "compressionlevel":-1,
+ "height":1,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 0, 0, 2, 2, 2],
+         "height":1,
+         "id":1,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":6,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.6.0",
+ "tileheight":176,
+ "tilesets":[
+        {
+         "columns":0,
+         "firstgid":1,
+         "grid":
+            {
+             "height":1,
+             "orientation":"orthogonal",
+             "width":1
+            },
+         "margin":0,
+         "name":"Lab",
+         "spacing":0,
+         "tilecount":2,
+         "tileheight":177,
+         "tiles":[
+                {
+                 "id":0,
+                 "image":"cyberpunk-corridor.png",
+                 "imageheight":177,
+                 "imagewidth":338
+                }, 
+                {
+                 "id":1,
+                 "image":"cyberpunk-corridor copy.png",
+                 "imageheight":176,
+                 "imagewidth":111
+                }],
+         "tilewidth":338
+        }],
+ "tilewidth":111,
+ "type":"map",
+ "version":"1.6",
+ "width":6
+}

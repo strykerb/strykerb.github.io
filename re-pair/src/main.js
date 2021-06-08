@@ -7,13 +7,14 @@ var config = {
         arcade: {
             gravity: {y: 980},
             debug: false,
-            TILE_BIAS: 70
+            tileBias: 70,
+            overlapBias: 8,
         },
         
     },
     pixelArt: true,
     roundPixels: true,
-    scene: [Menu, Level1, Level2, Level3, Level4, Level5],
+    scene: [MainMenu ,Menu, Lab, Level1, Level2, Level3, Level4, Level5, Credits],
     fps: {
         target: 60,
         forceSetTimeOut: true
@@ -26,20 +27,30 @@ var game = new Phaser.Game(config);
 var map;
 var player;
 var cursors;
-let keyLEFT, keyRIGHT, keyUP, keySPACE;
+let keyLEFT, keyRIGHT, keyUP, keySPACE, keyENTER;
 var groundLayer, coinLayer, bgLayer;
 var text;
 var winbox;
 var win;
 var labDoor;
 var progress;
+var soundEffects = {};
 
-function enterButtonHoverState(index) {
-    game.scene.scenes[0].levels[index].scaleX = 1.5;
-    game.scene.scenes[0].levels[index].scaleY = 1.5;
+function loadFont(name, url) {
+    var newFont = new FontFace(name, `url(${url})`);
+    newFont.load().then(function (loaded) {
+        document.fonts.add(loaded);
+    }).catch(function (error) {
+        return error;
+    });
+}
+
+function enterButtonHoverState(button) {
+    button.scaleX = 1.5;
+    button.scaleY = 1.5;
   }
 
-function enterButtonRestState(index) {
-    game.scene.scenes[0].levels[index].scaleX = 1;
-    game.scene.scenes[0].levels[index].scaleY = 1;
+function enterButtonRestState(button) {
+    button.scaleX = 1;
+    button.scaleY = 1;
 }
