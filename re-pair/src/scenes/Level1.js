@@ -150,7 +150,7 @@ class Level1 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(500 , 280, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions = this.add.text(500 , 280, "Press SPACE to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 

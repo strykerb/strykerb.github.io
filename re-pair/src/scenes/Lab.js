@@ -43,6 +43,17 @@ class Lab extends Phaser.Scene {
             soundEffects["footsteps"].stop();
         }
         
+        this.scoreConfig = {
+            fontFamily: 'cyberfunk',
+            fontSize: '30px',
+            color: '#faf5c8',
+            align: 'right',
+            padding: {
+            top: 5,
+            bottom: 5,
+            }
+        }
+        
         this.add.image(0, 0, 'tiles');
        
         // load the map 
@@ -101,10 +112,17 @@ class Lab extends Phaser.Scene {
         // set background color, so the sky is not black    
         this.cameras.main.setBackgroundColor('#000000'); 
 
-        // Create ability cooldown bar
-        //this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
-        // this.setValue(this.coolDownBar, 0);
-        //this.coolDownBar.setScrollFactor(0, 0);
+        // Set the default Level
+        if (!progress){
+            progress = 0;
+        }
+
+        // Instructions text
+        if (progress == 0){
+            this.instructions = this.add.text(140 , 230, "Use the Arrow Keys to Move", this.scoreConfig).setOrigin(0, 0);
+            this.instructions.setScrollFactor(0, 0);
+            console.log(this.instructions);
+        }
 
         this.portal = new Portal(this, 280, 90, 'portal', 0).setDepth(-2);
 
@@ -142,7 +160,11 @@ class Lab extends Phaser.Scene {
             //let nextLevel = "level" + (progress+1);
             soundEffects["footsteps"].stop();
             soundEffects["teleportSound"].play();
-            this.scene.start("menuScene");
+            if (progress < 5){
+                this.scene.start("menuScene");
+            } else {
+                this.scene.start("endingScene");
+            }
         }
 
         this.portalCollider = this.physics.add.overlap(this.portal, this.player, this.enterPortal);

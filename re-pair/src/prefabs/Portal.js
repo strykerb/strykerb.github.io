@@ -10,9 +10,10 @@ class Portal extends Phaser.GameObjects.Sprite {
         scene.physics.add.existing(this);
         this.setOrigin(0.5, 0);
         this.body.allowGravity = false;
+        this.body.setSize(8, 64, 16, 0);
         this.createAnims();
         this.anims.play('on');
-        
+
     }
 
     createAnims(){
