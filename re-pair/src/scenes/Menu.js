@@ -1,16 +1,16 @@
 class Menu extends Phaser.Scene {
-    
+
     constructor() {
         super("menuScene");
     }
 
     preload() {
-        
+
     }
 
     create(){
         soundEffects["music"].stop();
-        
+
         // Config for Play Button
         let LOCKEDConfig = {
             fontFamily: 'cyberfunk',
@@ -46,7 +46,7 @@ class Menu extends Phaser.Scene {
         }
 
         if (!progress){
-            progress = 2;
+            progress = 0;
         }
 
         let i;
@@ -59,7 +59,7 @@ class Menu extends Phaser.Scene {
             } else{
                 this.levels[i] = this.add.text((i+1)*game.config.width/6 , game.config.height/2, year, NEXTConfig).setOrigin(0.5, 0.5);
                 this.levels[i].setInteractive();
-            } 
+            }
 
             let index = i;
 
@@ -69,12 +69,12 @@ class Menu extends Phaser.Scene {
             this.levels[i].on('pointerout', () => {
                 enterButtonRestState(this.levels[index]);
             });
-            this.levels[i].on('pointerdown', () => { 
+            this.levels[i].on('pointerdown', () => {
                 soundEffects["music"].play();
-                this.scene.start(levelName); 
+                this.scene.start(levelName);
             });
         }
-        
+
     }
 
 }
