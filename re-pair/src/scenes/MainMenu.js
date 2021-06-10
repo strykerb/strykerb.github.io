@@ -74,7 +74,7 @@ class MainMenu extends Phaser.Scene {
         this.load.image('door', './assets/sprites/door.png');
 
         // this.load.image("background", "./assets/sprites/BG.png");
-        this.load.image("background", "./assets/sprites/menu.png");
+        this.load.image("background", "./assets/sprites/Menu.png");
         this.load.image("playText", "./assets/sprites/playText.png");
         this.load.image("creditsText", "./assets/sprites/creditsText.png");
     }
