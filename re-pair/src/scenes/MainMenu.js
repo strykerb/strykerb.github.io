@@ -73,20 +73,23 @@ class MainMenu extends Phaser.Scene {
         
         this.load.image('door', './assets/sprites/door.png');
 
-        this.load.image("background", "./assets/sprites/BG.png");
+        // this.load.image("background", "./assets/sprites/BG.png");
+        this.load.image("background", "./assets/sprites/menu.png");
+        this.load.image("playText", "./assets/sprites/playText.png");
+        this.load.image("creditsText", "./assets/sprites/creditsText.png");
     }
 
     create() {
 
         this.background = this.add.image(game.config.width/2, game.config.height/2, 'background').setOrigin(0.5, 0.5);
 
-        this.background.scaleX = 0.7;
-        this.background.scaleY = 0.7;
+        this.background.scaleX = 1.1;
+        this.background.scaleY = 1.1;
 
         this.creditsConfig = {
             fontFamily: 'Orbitron',
             fontSize: '56px',
-            color: '#faf5c8',
+            color: '#ff0000',
             align: 'right',
             padding: {
             top: 5,
@@ -95,7 +98,8 @@ class MainMenu extends Phaser.Scene {
         }
 
         // Add Play Button to the Screen
-        this.play = this.add.text(game.config.width/3 , 3*game.config.height/4 - 10, "PLAY", this.creditsConfig).setOrigin(0.5, 0.5);
+        //this.play = this.add.text(game.config.width/2 -40, game.config.height/2+30, "PLAY", this.creditsConfig).setOrigin(1, 0.5);
+        this.play = this.add.image(game.config.width/2 -45, game.config.height/2+40, "playText").setOrigin(1, 0.5);
         this.play.setInteractive();
         this.play.on('pointerover', () => { enterButtonHoverState(this.play); });
         this.play.on('pointerout', () => { enterButtonRestState(this.play); });
@@ -114,7 +118,8 @@ class MainMenu extends Phaser.Scene {
         // });
 
         // Add Credits Button to the Screen
-        this.credits = this.add.text((2 * game.config.width)/3 -20, 3*game.config.height/4 - 10, "CREDITS", this.creditsConfig).setOrigin(0.5, 0.5);
+        this.credits = this.add.image(game.config.width/2-10, game.config.height/2+40, "creditsText").setOrigin(0, 0.5);
+        //this.credits = this.add.text(game.config.width/2, game.config.height/2+30, "CREDITS", this.creditsConfig).setOrigin(0, 0.5);
         this.credits.setInteractive();
         this.credits.on('pointerover', () => { enterButtonHoverState(this.credits); });
         this.credits.on('pointerout', () => { enterButtonRestState(this.credits); });
