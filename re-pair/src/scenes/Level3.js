@@ -94,7 +94,7 @@ class Level3 extends Phaser.Scene {
         this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
 
         this.scoreConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Cyberfunk',
             fontSize: '30px',
             color: '#faf5c8',
             align: 'right',
@@ -105,7 +105,7 @@ class Level3 extends Phaser.Scene {
         }
 
         this.hintConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Cyberfunk',
             fontSize: '60px',
             color: '#faf5c8',
             align: 'right',
@@ -135,7 +135,7 @@ class Level3 extends Phaser.Scene {
             labDoor.setOrigin(0.5, 0.5);
             labDoor.body.allowGravity = false;
             this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
-            this.instructions2 = this.add.text(1800 , 500, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
+            this.instructions2 = this.add.text(1800 , 500, "← Return to the Lab", this.hintConfig).setOrigin(0, 0);
             this.clock = this.time.delayedCall(3000, () => {
                 this.instructions2.alpha = 0;
             }, null, this);
