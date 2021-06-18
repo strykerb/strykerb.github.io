@@ -54,6 +54,7 @@ class MainMenu extends Phaser.Scene {
         this.load.image('intro2', './assets/sprites/intro2.png')
         this.load.image('intro3', './assets/sprites/intro3.png')
         this.load.image('intro4', './assets/sprites/intro4.png')
+        this.load.image('intro5', './assets/sprites/intro5.png')
 
         loadFont("cyberfunk", "./assets/fonts/Cyberfunk.ttf");
         loadFont("Orbitron", "./assets/fonts/Orbitron-Bold.ttf");

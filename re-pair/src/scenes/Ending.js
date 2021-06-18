@@ -7,8 +7,8 @@ class Ending extends Phaser.Scene {
 
         this.LETTER_TIMER = 10;		// # ms each letter takes to "type" onscreen
         this.NEXT_TEXT = '[ENTER]';	// text to display for next prompt
-        this.NEXT_X = 1000;			// next text prompt x-position
-        this.NEXT_Y = 600;			// next text prompt y-position
+        this.NEXT_X = 1125;			// next text prompt x-position
+        this.NEXT_Y = 675;			// next text prompt y-position
         this.dialogIndex = 0;
     }
 
@@ -33,6 +33,12 @@ class Ending extends Phaser.Scene {
             image.scaleY = 0.66667;
             // image.alpha = 0;
         });
+
+        this.textBox = this.add.image(game.config.width/2, game.config.height-50, 'particle').setOrigin(0.5, 0.5);
+        this.textBox.scaleX = 256;
+        this.textBox.scaleY = 20;
+        this.textBox.tint = 0x000000;
+        this.textBox.alpha = 0.5;
         
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         
@@ -69,7 +75,7 @@ class Ending extends Phaser.Scene {
 
     engageDialogue(idx){
         let x = 100;
-        let y = 300;
+        let y = game.config.height-90;
         this.dialogTyping = true;
         this.currDialogue.text = "";
         if (this.nextText){
@@ -77,6 +83,7 @@ class Ending extends Phaser.Scene {
         }
         if (idx >= this.Dialogue.length){
             this.currDialogue.text = "";
+            this.textBox.alpha = 0;
             progress = 0;
             this.ending = this.add.text(game.config.width/2 , game.config.height/2, "THE END", this.endConfig).setOrigin(0.5, 0.5);
             this.clock = this.time.delayedCall(5000, () => {
