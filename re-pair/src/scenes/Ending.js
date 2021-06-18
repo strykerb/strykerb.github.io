@@ -25,6 +25,14 @@ class Ending extends Phaser.Scene {
             {text: "The time warp causes a near-by generator to explode."},
             {text: "Your past self runs back to where your girlfriend was, but sees nothing but smoke and flames. They pick up the broken glasses."}
         ];
+
+        this.images = [];
+        this.images.push(this.add.image(game.config.width/2, game.config.height/2, 'intro1').setOrigin(0.5, 0.5));
+        this.images.forEach(image => {
+            image.scaleX = 0.66667;
+            image.scaleY = 0.66667;
+            // image.alpha = 0;
+        });
         
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         
@@ -32,10 +40,10 @@ class Ending extends Phaser.Scene {
 
         this.dialogueConfig = {
             fontFamily: 'cyberfunk',
-            fontSize: '30px',
+            fontSize: '40px',
             color: '#faf5c8',
             align: 'left', 
-            wordWrap: { width: 750, useAdvancedWrap: true }
+            wordWrap: { width: 1000, useAdvancedWrap: true }
         }
 
         this.endConfig = {
@@ -71,7 +79,7 @@ class Ending extends Phaser.Scene {
             this.currDialogue.text = "";
             progress = 0;
             this.ending = this.add.text(game.config.width/2 , game.config.height/2, "THE END", this.endConfig).setOrigin(0.5, 0.5);
-            this.clock = this.time.delayedCall(3000, () => {
+            this.clock = this.time.delayedCall(5000, () => {
                 this.scene.start("mainMenuScene");
             }, null, this);
             return;

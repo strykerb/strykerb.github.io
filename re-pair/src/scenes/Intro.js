@@ -10,6 +10,7 @@ class Intro extends Phaser.Scene {
         this.NEXT_X = 1000;			// next text prompt x-position
         this.NEXT_Y = 600;			// next text prompt y-position
         this.dialogIndex = 0;
+        this.dialogueTweenDuration = 2000;
     }
 
     preload() {
@@ -27,6 +28,16 @@ class Intro extends Phaser.Scene {
             {text: "Instead, you've been developing a giant portal. And you've finally finished it."}
         ];
         
+        this.images = [];
+        this.images.push(this.add.image(game.config.width/2, game.config.height/2, 'intro1').setOrigin(0.5, 0.5));
+        this.images.push(this.add.image(game.config.width/2, game.config.height/2, 'intro2').setOrigin(0.5, 0.5));
+        this.images.push(this.add.image(game.config.width/2, game.config.height/2, 'intro3').setOrigin(0.5, 0.5));
+        this.images.push(this.add.image(game.config.width/2, game.config.height/2, 'intro4').setOrigin(0.5, 0.5));
+        this.images.forEach(image => {
+            image.scaleX = 0.66667;
+            image.scaleY = 0.66667;
+            image.alpha = 0;
+        });
         
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         
@@ -34,10 +45,10 @@ class Intro extends Phaser.Scene {
 
         this.dialogueConfig = {
             fontFamily: 'cyberfunk',
-            fontSize: '30px',
+            fontSize: '40px',
             color: '#faf5c8',
             align: 'left', 
-            wordWrap: { width: 750, useAdvancedWrap: true }
+            wordWrap: { width: 1000, useAdvancedWrap: true }
         }
 
         this.currDialogue = this.add.text(0 , 0, "", this.dialogueConfig).setOrigin(0, 0);
@@ -67,32 +78,63 @@ class Intro extends Phaser.Scene {
             this.scene.start("lab");
             return;
         }
+
+        if (idx == 0){
+            this.tweens.add({
+                targets: this.images[idx],
+                alpha: 1,
+                duration: this.dialogueTweenDuration,
+                ease: 'Linear'
+            });
+            
+            //this.images[idx].alpha = 1;
+        } else if (idx < this.images.length){
+            this.tweens.add({
+                targets: this.images[idx],
+                alpha: 1,
+                duration: this.dialogueTweenDuration,
+                ease: 'Linear'
+            });
+            this.tweens.add({
+                targets: this.images[idx-1],
+                alpha: 0,
+                duration: this.dialogueTweenDuration,
+                ease: 'Linear'
+            });
+            // this.images[idx].alpha = 1;
+            // this.images[idx-1].alpha = 0;
+        } else {
+            this.dialogueTweenDuration = 0;
+        }
         
         this.currDialogue.x = x;
         this.currDialogue.y = y;
         let currentChar = 0; 
-        this.textTimer = this.time.addEvent({
-            delay: this.LETTER_TIMER,
-            repeat: this.Dialogue[idx]['text'].length - 1,
-            callback: () => { 
-                // concatenate next letter from dialogLines
-                this.currDialogue.text += this.Dialogue[idx]['text'][currentChar];
-                // advance character position
-                currentChar++;
-                // check if timer has exhausted its repeats 
-                // (necessary since Phaser 3 no longer seems to have an onComplete event)
-                if(this.textTimer.getRepeatCount() == 0) {
-                    // show prompt for more text
-                    this.nextText = this.add.text(this.NEXT_X, this.NEXT_Y, this.NEXT_TEXT, this.dialogueConfig).setOrigin(0, 0).setDepth(4);
-                    // un-lock input
-                    this.dialogTyping = false;
-
-                    // destroy timer
-                    this.textTimer.destroy();
-                }
-            },
-            callbackScope: this // keep Scene context
-        });
+        this.clock = this.time.delayedCall(this.dialogueTweenDuration, () => {
+            this.textTimer = this.time.addEvent({
+                delay: this.LETTER_TIMER,
+                repeat: this.Dialogue[idx]['text'].length - 1,
+                callback: () => { 
+                    // concatenate next letter from dialogLines
+                    this.currDialogue.text += this.Dialogue[idx]['text'][currentChar];
+                    // advance character position
+                    currentChar++;
+                    // check if timer has exhausted its repeats 
+                    // (necessary since Phaser 3 no longer seems to have an onComplete event)
+                    if(this.textTimer.getRepeatCount() == 0) {
+                        // show prompt for more text
+                        this.nextText = this.add.text(this.NEXT_X, this.NEXT_Y, this.NEXT_TEXT, this.dialogueConfig).setOrigin(0, 0).setDepth(4);
+                        // un-lock input
+                        this.dialogTyping = false;
+    
+                        // destroy timer
+                        this.textTimer.destroy();
+                    }
+                },
+                callbackScope: this // keep Scene context
+            });
+        }, null, this);
+        
     }
 
 }
