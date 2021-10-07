@@ -243,7 +243,11 @@ function CalcPosition(){
       player.jumpTick = G.JUMP_DURATION;
   } else {
     player.isJumping = true;
-    player.jumpTick++;
+    if (!input.isPressed) {
+      player.jumpTick = G.JUMP_DURATION+1;
+    } else {
+      player.jumpTick++;
+    }
     if (player.jumpTick > G.JUMP_DURATION){
       // Check horizontal block
       posY += G.JUMP_HEIGHT;
