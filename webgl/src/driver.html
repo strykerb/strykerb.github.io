@@ -1,0 +1,55 @@
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Shotgun</title>
+
+        <!-- Load external libs -->
+        <script src="../lib/cuon-matrix-cse160.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="../lib/webgl-debug.js"></script>
+        <script src="../lib/webgl-utils.js"></script>
+
+        <!-- Load main -->
+        <script src="asg4.js"></script>
+        
+        <!-- Load classes -->
+        <script src="Cylinder.js"></script>
+        <script src="Sphere.js"></script>
+        <script src="Camera.js"></script>
+
+        <style>
+            body{
+                background-color: #D1D1D1;
+            }
+        </style>
+    </head>
+
+    <body onload="main()">
+        <canvas id="canvas" width="350" height="350"></canvas>
+
+        <br></br>
+        <h1>Shotgun Rendering</h1>
+        <h2>Ignore the poor 3D modeling; the point is the lighting calculations.</h2>
+        <h3>Controls:</h3>
+        <ul>
+            <li>[W][A][S][D]: Camera Movement</li>
+            <li>[Mouse]: Camera Paning/Tilting</li>
+            <li>[SPACE]: Jump (Animation)</li>
+            <li>[E]/[Q]: Zoom In/Out</li>
+            <li>[R]: Toggle Orthographic View</li>
+            <li>[1]: Smooth Shading</li>
+            <li>[2]: Flat Shading</li>
+            <li>[3]: Wire Frame</li>
+            <li>[4]: Toggle Diffuse Lighting</li>
+            <li>[5]: Toggle Ambient Lighting</li>
+            <li>[6]: Toggle Specular Lighting</li>
+            <li>[7]: Toggle Point Light</li>
+            <li>[8]: Toggle Directional Light</li>
+        </ul>
+
+        
+    </body>
+
+    
+</html>

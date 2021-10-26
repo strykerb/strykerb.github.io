@@ -12,11 +12,11 @@ characters = [`
  yYYy 
 yYyyYy
 yYyyYy
- YyyY
+ yYYy
   yy
 `,`
 B P pb
- pbp  
+  pbp
 B pbp 
 bpbp P
 pbp   
@@ -32,8 +32,8 @@ BpbB B
   rr
  r rr
 rrrr rr
-  YlYl
-  YYYY
+ YlYl
+ YYYY
 `,`
 R    r
  r  R 
@@ -53,7 +53,7 @@ gG  Gg
 G gg G
 gG  Gg
  gGGg
-  gg
+  gge
 `];
 
 options = {

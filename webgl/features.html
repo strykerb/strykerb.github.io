@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ASG 4 Features - Buffington</title>
+    <style>
+        body{
+            background-color: #D1D1D1;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSE 160 Programming Assignment 4: Navigating in your Virtual World</h1>
+    <h2>Author: Stryker Buffington - sbuffing@ucsc.edu</h2>
+    <h4>Submitted on: May 23, 2021</h4>
+    <br></br>
+    <h3>Program Overview:</h3>
+    <p>This program was meant to simulate controling a 3D avatar. It implements wireframe, flat shading, and smooth shading, building upon program 3's 3D scene. It allows the user to Modify lighting settings, toggle light sources, and move the camera throughout the scene. It also plays a jump animation.</p>
+    <br></br>
+    <h3>Program Links:</h3>
+    <ul>
+        <li><a href = "./src/driver.html">HTML Code</a></li>
+        <li><a href = "./src/asg4.js">Main Javascript</a></li>
+        <li><a href = "./src/Cylinder.js">Cylinder Class</a></li>
+        <li><a href = "./src/Sphere.js">Sphere Class</a></li>
+        <li><a href = "./src/Camera.js">Camera Class</a></li>
+    </ul>
+    <img src="./res/output.png" width = "368" height = "368">
+    <h3>User Guide</h3>
+    <ul>
+        <li>[W][A][S][D]: Camera Movement</li>
+        <li>[Mouse]: Camera Paning/Tilting</li>
+        <li>[SPACE]: Jump (Animation)</li>
+        <li>[E]/[Q]: Zoom In/Out</li>
+        <li>[R]: Toggle Orthographic View</li>
+        <li>[1]: Smooth Shading</li>
+        <li>[2]: Flat Shading</li>
+        <li>[3]: Wire Frame</li>
+        <li>[4]: Toggle Diffuse Lighting</li>
+        <li>[5]: Toggle Ambient Lighting</li>
+        <li>[6]: Toggle Specular Lighting</li>
+        <li>[7]: Toggle Point Light</li>
+        <li>[8]: Toggle Directional Light</li>
+    </ul>
+    <br></br>
+    <h3>Implementation Notes</h3>
+    <p>The program was based off of Lucas Nascimento Ferreira's base code. Smooth Shading was achieved using Gouraud Shading. Player jump animation is a quadratic curve. Camera is locked to one height to emulate playing as a charatcer in a video game. Walking input is smooth and continuous, and allows for diagonal movement.</p>
+</body>
+</html>
