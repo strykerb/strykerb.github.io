@@ -1,7 +1,7 @@
 title = "AVALANCHE";
 
 description = `
-avoid the
+click to avoid the
 
 stones.
 `;
